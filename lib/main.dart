@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:our_kahoot/views/game_creator_screen.dart';
 import 'package:our_kahoot/views/login_screen.dart';
+import 'package:our_kahoot/views/question_creator_screen.dart';
 
 import 'views/registration_screen.dart';
 
@@ -16,6 +17,7 @@ class OurKahoot extends StatelessWidget {
         LoginScreen.route: (context) => const LoginScreen(),
         GameCreatorScreen.route: (context) => const GameCreatorScreen(),
         RegistrationScreen.route: (context) => const RegistrationScreen(),
+        QuestionCreatorScreen.route: (context) => const QuestionCreatorScreen(),
       },
       initialRoute: '/',
     );

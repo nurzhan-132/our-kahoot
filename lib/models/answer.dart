@@ -1,7 +1,7 @@
 
 class Answer {
-  final int id;
+  //final int id;
   String answerText;
 
-  Answer({required this.id, this.answerText = ''});
+  Answer({/*required this.id,*/ this.answerText = ''});
 }
