@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:our_kahoot/views/question_creator_screen.dart';
+import '../game_provider.dart';
 import '../models/data_layer.dart';
+import './question_creator_screen.dart';
 
 class GameCreatorScreen extends StatefulWidget {
-  static const route = '/game_creator_screen';
   const GameCreatorScreen({Key? key}) : super(key: key);
 
   @override
@@ -11,54 +11,91 @@ class GameCreatorScreen extends StatefulWidget {
 }
 
 class _GameCreatorScreenState extends State<GameCreatorScreen> {
-  final game = Game();
+  final textController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Tasks'),
+        title: const Text('Games'),
       ),
-      backgroundColor: Theme.of(context).primaryColor,
-      body: _buildListTasks(),
-      floatingActionButton: _buildAddQuestionButton(),
+      body: Column(
+        children: [_buildListCreator(), Expanded(child: _buildGame())],
+      ),
     );
   }
 
-  Widget _buildAddQuestionButton() {
-    return FloatingActionButton(
-      child: Icon(Icons.add),
-      onPressed: () {
-        setState(() {
-          game.tasks.add(Task());
-        });
+  Widget _buildListCreator() {
+    return Padding(
+      padding: const EdgeInsets.all(20.0),
+      child: Material(
+        color: Theme.of(context).cardColor,
+        elevation: 10,
+        child: TextField(
+          controller: textController,
+          decoration: const InputDecoration(
+              labelText: 'Add a game', contentPadding: EdgeInsets.all(20)),
+          onEditingComplete: addGame,
+        ),
+      ),
+    );
+  }
+
+  void addGame() {
+    final text = textController.text;
+
+    if (text.isEmpty) {
+      return;
+    }
+
+    final game = Game()..name = text;
+    GameProvider.of(context).add(game);
+
+    textController.clear();
+    FocusScope.of(context).requestFocus(FocusNode());
+    setState(() {});
+  }
+
+  Widget _buildGame() {
+    final games = GameProvider.of(context);
+
+    if (games.isEmpty) {
+      return Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const Icon(
+            Icons.note,
+            size: 100,
+            color: Colors.grey,
+          ),
+          Text(
+            'You do not have any games yet.',
+            style: Theme.of(context).textTheme.headline5,
+          )
+        ],
+      );
+    }
+
+    return ListView.builder(
+      itemCount: games.length,
+      itemBuilder: (context, index) {
+        final game = games[index];
+        return ListTile(
+          title: Text(game.name),
+          subtitle: Text(game.numberOfTasksMessage()),
+          onTap: () {
+            //Navigator.of(context).pushNamed(QuestionCreatorScreen.route, arguments: game);
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (_) => QuestionCreatorScreen(game: game)));
+          },
+        );
       },
     );
   }
 
-  Widget _buildListTasks() {
-    return ListView.builder(
-      itemCount: game.tasks.length,
-      itemBuilder: (context, index) => _buildTaskTile(game.tasks[index]),
-    );
-  }
-
-  Widget _buildTaskTile(Task task) {
-    return ListTile(
-      trailing: BackButton(
-        onPressed:  /*_getQuestionScreen(task)*/null,
-      ),
-      title: TextField(
-        onChanged: (text) {
-          setState(() {
-            task.questionText = text;
-          });
-        },
-      ),
-    );
-  }
-
-  _getQuestionScreen(Task task) {
-    Navigator.of(context).pushNamed(QuestionCreatorScreen.route, arguments: task);
+  @override
+  void dispose() {
+    super.dispose();
+    textController.dispose();
   }
 }

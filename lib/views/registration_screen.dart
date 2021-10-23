@@ -18,7 +18,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Registration'),
+        title: const Text('Registration'),
       ),
       body: Center(
         child: _buildRegistrationForm(),
@@ -66,12 +66,12 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       return;
     }
 
-    final name = _nameController.text;
-    final password = _passwordController.text;
+    //final name = _nameController.text;
+    //final password = _passwordController.text;
 
     // check if model exists
     // if everything ok, create model with status and save it,
-    final alert = PlatformAlert(
+    const alert = PlatformAlert(
         title: 'Registration completed!',
         message: 'You successfully registered in app.');
     alert.show(context);

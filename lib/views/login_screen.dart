@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:our_kahoot/views/game_creator_screen.dart';
-import '../models/login.dart';
+// import 'package:our_kahoot/views/question_creator_screen.dart';
+//import '../models/data_layer.dart';
 import './registration_screen.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -20,7 +20,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Login'),
+        title: const Text('Login'),
       ),
       body: Center(
         child: _buildLoginForm(),
@@ -54,7 +54,7 @@ class _LoginScreenState extends State<LoginScreen> {
               onPressed: () {
                 Navigator.of(context).pushNamed(RegistrationScreen.route);
               },
-              child: Text('Registration'),
+              child: const Text('Registration'),
             )
           ],
         ),
@@ -68,14 +68,14 @@ class _LoginScreenState extends State<LoginScreen> {
       return;
     }
 
-    final name = _nameController.text;
-    final password = _passwordController.text;
+                                                        //final name = _nameController.text;
+                                                        //final password = _passwordController.text;
 
     //check validation of user if ok then:
 
     // get status of user
-    final status = 'creator';
-    Navigator.of(context)
-        .pushReplacementNamed(GameCreatorScreen.route, arguments: status);
+                                                        //final status = 'creator';
+    //Navigator.of(context)
+      //  .pushReplacementNamed(QuestionCreatorScreen.route, arguments: status);
   }
 }

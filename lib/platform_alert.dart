@@ -6,7 +6,9 @@ class PlatformAlert {
   final String message;
 
   const PlatformAlert({required this.title, required this.message})
+      // ignore: unnecessary_null_comparison
       : assert(title != null),
+        // ignore: unnecessary_null_comparison
         assert(message != null);
 
   void show(BuildContext context) {
@@ -29,7 +31,7 @@ class PlatformAlert {
             actions: [
               TextButton(
                   onPressed: () => Navigator.of(context).pop(),
-                  child: Text('Close')),
+                  child: const Text('Close')),
             ],
           );
         });
@@ -45,7 +47,7 @@ class PlatformAlert {
             actions: [
               CupertinoButton(
                   onPressed: () => Navigator.of(context).pop(),
-                  child: Text('Close')),
+                  child: const Text('Close')),
             ],
           );
         });
