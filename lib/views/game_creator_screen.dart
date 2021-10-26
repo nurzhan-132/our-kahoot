@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import '../game_provider.dart';
-import '../models/data_layer.dart';
 import './question_creator_screen.dart';
 
 class GameCreatorScreen extends StatefulWidget {
+  static const route = '/game_creator_screen';
   const GameCreatorScreen({Key? key}) : super(key: key);
 
   @override
@@ -44,12 +44,8 @@ class _GameCreatorScreenState extends State<GameCreatorScreen> {
   void addGame() {
     final text = textController.text;
 
-    if (text.isEmpty) {
-      return;
-    }
-
-    final game = Game()..name = text;
-    GameProvider.of(context).add(game);
+    final controller = GameProvider.of(context);
+    controller.addNewGame(text);
 
     textController.clear();
     FocusScope.of(context).requestFocus(FocusNode());
@@ -57,7 +53,7 @@ class _GameCreatorScreenState extends State<GameCreatorScreen> {
   }
 
   Widget _buildGame() {
-    final games = GameProvider.of(context);
+    final games = GameProvider.of(context).games;
 
     if (games.isEmpty) {
       return Column(
@@ -80,15 +76,24 @@ class _GameCreatorScreenState extends State<GameCreatorScreen> {
       itemCount: games.length,
       itemBuilder: (context, index) {
         final game = games[index];
-        return ListTile(
-          title: Text(game.name),
-          subtitle: Text(game.numberOfTasksMessage()),
-          onTap: () {
-            //Navigator.of(context).pushNamed(QuestionCreatorScreen.route, arguments: game);
-            Navigator.of(context).push(MaterialPageRoute(
-                builder: (_) => QuestionCreatorScreen(game: game)));
-          },
-        );
+        return Dismissible(
+            key: ValueKey(game),
+            background: Container(color: Colors.red),
+            direction: DismissDirection.endToStart,
+            onDismissed: (_) {
+              final controller = GameProvider.of(context);
+              controller.deleteGame(game);
+              setState(() {});
+            },
+            child: ListTile(
+              title: Text(game.name),
+              subtitle: Text(game.numberOfTasksMessage()),
+              onTap: () {
+                //Navigator.of(context).pushNamed(QuestionCreatorScreen.route, arguments: game);
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (_) => QuestionCreatorScreen(game: game)));
+              },
+            ));
       },
     );
   }

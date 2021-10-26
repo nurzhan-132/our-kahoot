@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../game_provider.dart';
 import './question_screen.dart';
 import '../models/data_layer.dart';
 
@@ -46,13 +47,8 @@ class _QuestionCreatorScreenState extends State<QuestionCreatorScreen> {
   void addTask() {
     final text = textController.text;
 
-    if (text.isEmpty) {
-      return;
-    }
-
-    final task = Task()..questionText = text;
-    game.tasks.add(task);
-    //TaskProvider.of(context).add(task);
+    final controller = GameProvider.of(context);
+    controller.addNewTask(game, text);
 
     textController.clear();
     FocusScope.of(context).requestFocus(FocusNode());
@@ -84,15 +80,23 @@ class _QuestionCreatorScreenState extends State<QuestionCreatorScreen> {
       itemCount: tasks.length,
       itemBuilder: (context, index) {
         final task = tasks[index];
-        return ListTile(
-          title: Text(task.questionText),
-          subtitle: Text(task.numberOfAnswersMessage()),
-          onTap: () {
-            //Navigator.of(context).pushNamed(QuestionScreen.route, arguments: task);
-            Navigator.of(context).push(
-                MaterialPageRoute(builder: (_) => QuestionScreen(task: task)));
-          },
-        );
+        return Dismissible(
+            key: ValueKey(task),
+            background: Container(color: Colors.red),
+            direction: DismissDirection.endToStart,
+            onDismissed: (_) {
+              final controller = GameProvider.of(context);
+              controller.deleteTask(game, task);
+              setState(() {});
+            },
+            child: ListTile(
+              title: Text(task.questionText),
+              subtitle: Text(task.numberOfAnswersMessage()),
+              onTap: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (_) => QuestionScreen(task: task)));
+              },
+            ));
       },
     );
   }

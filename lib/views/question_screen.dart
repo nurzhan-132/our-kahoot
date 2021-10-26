@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../game_provider.dart';
 import '../models/data_layer.dart';
 
 class QuestionScreen extends StatefulWidget {
@@ -15,13 +16,11 @@ class _QuestionScreenState extends State<QuestionScreen> {
 
   @override
   Widget build(BuildContext context) {
-    //task = ModalRoute.of(context)!.settings.arguments as Task;
-
     return Scaffold(
       appBar: AppBar(
         title: const Text('Answers'),
       ),
-      backgroundColor: Theme.of(context).primaryColor,
+      //backgroundColor: Theme.of(context).primaryColor,
       body: _buildListAnswers(),
       floatingActionButton: _buildAddAnswerButton(),
     );
@@ -31,9 +30,9 @@ class _QuestionScreenState extends State<QuestionScreen> {
     return FloatingActionButton(
       child: const Icon(Icons.add),
       onPressed: () {
-        setState(() {
-          task.answers.add(Answer());
-        });
+        final controller = GameProvider.of(context);
+        controller.addNewAnswer(task);
+        setState(() {});
       },
     );
   }
@@ -41,28 +40,41 @@ class _QuestionScreenState extends State<QuestionScreen> {
   Widget _buildListAnswers() {
     return ListView.builder(
       itemCount: task.answers.length,
-      itemBuilder: (context, index) => _buildAnswerTile(task.answers[index]),
+      itemBuilder: (context, index) => _buildAnswerTile(task.answers[index], index),
     );
   }
 
-  Widget _buildAnswerTile(Answer answer) {
-    return ListTile(
-      trailing: Checkbox(
-        value: answer.correctness,
-        onChanged: (selected) {
-          setState(() {
-            answer.correctness = selected!;
-          });
+  Widget _buildAnswerTile(Answer answer, index) {
+    return Dismissible(
+        key: ValueKey(answer),
+        background: Container(color: Colors.red),
+        direction: DismissDirection.endToStart,
+        onDismissed: (_) {
+          final controller = GameProvider.of(context);
+          controller.deleteAnswer(task, answer);
+          setState(() {});
         },
-      ),
-      title: TextFormField(
-        initialValue: answer.answerText,
-        onFieldSubmitted: (text) {
-          setState(() {
-            answer.answerText = text;
-          });
-        },
-      ),
-    );
+        child: ListTile(
+          trailing: Checkbox(
+            value: answer.correctness,
+            onChanged: (selected) {
+              setState(() {
+                answer.correctness = selected!;
+              });
+            },
+          ),
+          title: TextFormField(
+            decoration: InputDecoration(
+              fillColor: Colors.white,
+              labelText: 'Answer #${index + 1}',
+            ),
+            initialValue: answer.answerText,
+            onFieldSubmitted: (text) {
+              setState(() {
+                answer.answerText = text;
+              });
+            },
+          ),
+        ));
   }
 }
