@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
-import 'models/data_layer.dart';
+import 'controllers/game_controller.dart';
 
 class GameProvider extends InheritedWidget {
-  final _games = <Game>[];
+  final _controller = GameController();
 
   GameProvider({Key? key, required Widget child})
       : super(key: key, child: child);
@@ -10,8 +10,9 @@ class GameProvider extends InheritedWidget {
   @override
   bool updateShouldNotify(InheritedWidget oldWidget) => false;
 
-  static List<Game> of(BuildContext context) {
-    final provider = context.dependOnInheritedWidgetOfExactType<GameProvider>();
-    return provider!._games;
+  static GameController of(BuildContext context) {
+    GameProvider? provider =
+        context.dependOnInheritedWidgetOfExactType<GameProvider>();
+    return provider!._controller;
   }
 }

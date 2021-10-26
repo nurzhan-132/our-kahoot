@@ -3,5 +3,6 @@ class Answer {
   String answerText;
   bool correctness;
 
-  Answer({/*required this.id,*/ this.answerText = '', this.correctness = false});
+  Answer(
+      {/*required this.id,*/ this.answerText = '', this.correctness = false});
 }

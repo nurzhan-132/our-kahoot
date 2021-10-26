@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-// import 'package:our_kahoot/views/question_creator_screen.dart';
-//import '../models/data_layer.dart';
+import '../game_provider.dart';
 import './registration_screen.dart';
+import 'game_creator_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   static const route = '/login';
@@ -68,14 +68,20 @@ class _LoginScreenState extends State<LoginScreen> {
       return;
     }
 
-                                                        //final name = _nameController.text;
-                                                        //final password = _passwordController.text;
+    Navigator.of(context).push(MaterialPageRoute(
+        builder: (_) => GameProvider(
+                child: const MaterialApp(
+              home: GameCreatorScreen(),
+            ))));
+
+    //final name = _nameController.text;
+    //final password = _passwordController.text;
 
     //check validation of user if ok then:
 
     // get status of user
-                                                        //final status = 'creator';
+    //final status = 'creator';
     //Navigator.of(context)
-      //  .pushReplacementNamed(QuestionCreatorScreen.route, arguments: status);
+    //  .pushReplacementNamed(QuestionCreatorScreen.route, arguments: status);
   }
 }
