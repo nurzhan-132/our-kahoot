@@ -1,10 +1,25 @@
 
 
 class Login {
-  final int id;
-  String name;
-  String password;
-  String status;
 
-  Login({required this.id, this.name = '', this.password = '', this.status = 'user'});
+  String _name = '';
+  String _password;
+  String _id = '';
+
+
+  Login(this._name,this._password);
+
+//   static const keyName = 'name';
+//   static const keyPassword = 'password';
+//
+//   get name => _name;
+//   get password => _password;
+//
+//   Login.fromJson(Map<String, dynamic> data){
+//     _name = data['name'];
+//     _password = data['password'];
+//
+//   }
+//
+//
 }

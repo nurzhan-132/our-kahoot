@@ -19,47 +19,138 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Login'),
-      ),
-      body: Center(
-        child: _buildLoginForm(),
-      ),
-    );
-  }
-
-  Widget _buildLoginForm() {
-    return Form(
-      key: _formKey,
-      child: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            TextFormField(
-              controller: _nameController,
-              decoration: const InputDecoration(labelText: 'Login'),
-              validator: (text) => text!.isEmpty ? 'Enter your login' : null,
-            ),
-            TextFormField(
-              controller: _passwordController,
-              keyboardType: TextInputType.visiblePassword,
-              decoration: const InputDecoration(labelText: 'Password'),
-              validator: (text) => text!.isEmpty ? 'Enter your password' : null,
-            ),
-            const SizedBox(height: 20),
-            ElevatedButton(onPressed: _validate, child: const Text('Continue')),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.of(context).pushNamed(RegistrationScreen.route);
-              },
-              child: const Text('Registration'),
-            )
-          ],
-        ),
-      ),
-    );
+        backgroundColor: Colors.deepPurpleAccent,
+        body: Padding(
+            padding: EdgeInsets.all(25),
+            child: Center(
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    SizedBox(height: 40),
+                    Icon(Icons.person_outlined,
+                        color: Colors.grey[300], size: 140),
+                    SizedBox(height: 13),
+                    Text(
+                      'Welcome!',
+                      style: TextStyle(
+                        fontSize: 30,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Text(
+                      'Sign in to continue',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.yellow,
+                      ),
+                    ),
+                    SizedBox(height: 20),
+                    Form(
+                      key: _formKey,
+                      child: Column(
+                        children: [
+                          Container(
+                              color: Colors.yellow,
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 10, vertical: 5),
+                              child: TextFormField(
+                                controller: _nameController,
+                                style: TextStyle(
+                                  color: Theme.of(context).primaryColor,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 22,
+                                ),
+                                decoration: InputDecoration(
+                                    border: InputBorder.none,
+                                    prefixIcon: Icon(
+                                        Icons.alternate_email_sharp,
+                                        size: 30),
+                                    labelText: 'username',
+                                    labelStyle: TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w800,
+                                    )),
+                                validator: (text) =>
+                                    text!.isEmpty ? 'Enter your login' : null,
+                              )),
+                          SizedBox(height: 10),
+                          Container(
+                              color: Colors.yellow,
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 10, vertical: 5),
+                              child: TextFormField(
+                                controller: _passwordController,
+                                obscureText: true,
+                                style: TextStyle(
+                                  color: Theme.of(context).primaryColor,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 22,
+                                ),
+                                decoration: InputDecoration(
+                                    border: InputBorder.none,
+                                    prefixIcon: Icon(Icons.lock, size: 30),
+                                    labelText: 'password',
+                                    labelStyle: TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w800,
+                                    )),
+                                validator: (text) => text!.isEmpty
+                                    ? 'Enter your password'
+                                    : null,
+                              )),
+                          SizedBox(height: 10),
+                          SizedBox(
+                              height: 55,
+                              width: double.infinity,
+                              child: FlatButton(
+                                color: Colors.yellow,
+                                textColor: Colors.white,
+                                onPressed: _validate,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                child: Text(
+                                  'Login',
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              )),
+                          SizedBox(height: 20),
+                        ],
+                      ),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "Don't have an account? --> ",
+                          style: TextStyle(
+                            fontSize: 18,
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.of(context)
+                                .pushNamed(RegistrationScreen.route);
+                          },
+                          child: Text(
+                            'Register',
+                            style: TextStyle(
+                              color: Colors.yellow,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20,
+                            ),
+                          ),
+                        ),
+                      ],
+                    )
+                  ],
+                ),
+              ),
+            )));
   }
 
   void _validate() {
