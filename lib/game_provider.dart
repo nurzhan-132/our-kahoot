@@ -15,4 +15,5 @@ class GameProvider extends InheritedWidget {
         context.dependOnInheritedWidgetOfExactType<GameProvider>();
     return provider!._controller;
   }
+
 }

@@ -1,22 +1,26 @@
+import '../services/game_services.dart';
 import '../models/data_layer.dart';
 
 class GameController {
-  final _games = <Game>[];
+  final services = GameServices();
 
-  List<Game> get games => List.unmodifiable(_games);
+  List<Game> get games => List.unmodifiable(services.getAllGames());
 
   void addNewGame(String name) {
     if (name.isEmpty) {
       return;
     }
 
-    name = _checkForDuplicates(_games.map((game) => game.name), name);
-    final game = Game()..name = name;
-    _games.add(game);
+    name = _checkForDuplicates(games.map((game) => game.name), name);
+    services.createGame(name);
   }
 
   void deleteGame(Game game) {
-    _games.remove(game);
+    services.delete(game);
+  }
+
+  void saveGame(Game game) {
+    services.saveGame(game);
   }
 
   void addNewTask(Game game, String questionText) {
@@ -24,29 +28,14 @@ class GameController {
       return;
     }
 
-    questionText = _checkForDuplicates(
-        game.tasks.map((task) => task.questionText), questionText);
-    final task = Task()..questionText = questionText;
-    game.tasks.add(task);
+    questionText = _checkForDuplicates(game.tasks.map((task) => task.questionText), questionText);
+    services.createTask(game, questionText);
   }
 
   void deleteTask(Game game, Task task) {
-    game.tasks.remove(task);
+    services.deleteTask(game, task);
   }
-
-  void addNewAnswer(Task task, [String? answerText]) {
-    if (answerText == null || answerText.isEmpty) {
-      answerText = '';
-    }
-
-    final answer = Answer()..answerText = answerText;
-    task.answers.add(answer);
-  }
-
-  void deleteAnswer(Task task, Answer answer) {
-    task.answers.remove(answer);
-  }
-
+  
   String _checkForDuplicates(Iterable<String> items, String text) {
     final duplicatedCount = items.where((item) => item.contains(text)).length;
 
@@ -55,5 +44,38 @@ class GameController {
     }
 
     return text;
+  }
+ 
+  // void addNewAnswer(Game game, Task task, [String? answerText]) {
+    // Task _task = game.tasks.where((task_) => task_ == task).single;
+    // _task.answers.add();
+
+  //   if (answerText == null || answerText.isEmpty) {
+  //     answerText = '';
+  //   }
+
+  //   description = _checkForDuplicates(
+  //       plan.tasks.map((task) => task.description), description);
+  //   services.addTask(plan, description);
+  // }
+
+  // void deleteAnswer(Game game, Task task, Answer answer) {
+
+  // }
+
+  void addNewAnswer(Game game, Task task, [String? answerText]) {
+    if (answerText == null || answerText.isEmpty) {
+      answerText = '';
+    }
+
+    //Task _task = game.tasks.where((task_) => task_ == task).single;
+    //_task.answers.add();
+
+    //answerText = _checkForDuplicates(_task.answers.map((answer) => answer.answerText), answerText);
+    services.createAnswer(game, task, answerText);
+  }
+
+  void deleteAnswer(Game game, Task task, Answer answer) {
+    services.deleteAnswer(game, task, answer);
   }
 }
