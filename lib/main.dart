@@ -15,6 +15,7 @@ class OurKahoot extends StatelessWidget {
         '/': (context) => const LoginScreen(),
         RegistrationScreen.route: (context) => const RegistrationScreen(),
         GameCreatorScreen.route: (context) => const GameCreatorScreen(),
+        LoginScreen.route: (context) => const LoginScreen(),
       },
       initialRoute: '/',
     );

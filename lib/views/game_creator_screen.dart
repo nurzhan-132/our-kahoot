@@ -90,8 +90,10 @@ class _GameCreatorScreenState extends State<GameCreatorScreen> {
               subtitle: Text(game.numberOfTasksMessage()),
               onTap: () {
                 //Navigator.of(context).pushNamed(QuestionCreatorScreen.route, arguments: game);
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (_) => QuestionCreatorScreen(game: game)));
+                // Navigator.of(context).push(MaterialPageRoute(
+                //     builder: (_) => GameProvider(child: MaterialApp(home: QuestionCreatorScreen(game: game)))));
+                Navigator.of(context).push(
+                  MaterialPageRoute(builder: (_) => QuestionCreatorScreen(game: game)));
               },
             ));
       },
