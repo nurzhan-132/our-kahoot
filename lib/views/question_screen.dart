@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../game_provider.dart';
 import '../models/data_layer.dart';
+import 'package:flutter/cupertino.dart';
 
 class QuestionScreen extends StatefulWidget {
   //static const route = '/question_screen';
@@ -22,8 +23,14 @@ class _QuestionScreenState extends State<QuestionScreen> {
   Widget build(BuildContext context) {
     
     return Scaffold(
+      backgroundColor: Colors.deepPurpleAccent,
       appBar: AppBar(
-        title: const Text('Answers'),
+        title: const Text('Answers',textAlign: TextAlign.center, style: TextStyle(
+          fontSize: 20,
+          fontWeight: FontWeight.bold,
+          color: Colors.amberAccent,
+        ),),
+        backgroundColor: CupertinoColors.tertiaryLabel,
       ),
       //backgroundColor: Theme.of(context).primaryColor,
       body: _buildListAnswers(),
