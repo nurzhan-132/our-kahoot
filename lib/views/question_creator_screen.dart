@@ -19,9 +19,7 @@ class _QuestionCreatorScreenState extends State<QuestionCreatorScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Tasks'),
-      ),
+      backgroundColor: Colors.deepPurpleAccent,
       body: Column(
         children: [_buildListCreator(), Expanded(child: _buildTask())],
       ),
@@ -37,6 +35,10 @@ class _QuestionCreatorScreenState extends State<QuestionCreatorScreen> {
         child: TextField(
           controller: textController,
           decoration: const InputDecoration(
+              prefixIcon : Icon(
+                Icons.add_box_rounded,
+                color: Colors.black,
+                size: 30,),
               labelText: 'Add a task', contentPadding: EdgeInsets.all(20)),
           onEditingComplete: addTask,
         ),
@@ -66,7 +68,7 @@ class _QuestionCreatorScreenState extends State<QuestionCreatorScreen> {
           const Icon(
             Icons.note,
             size: 100,
-            color: Colors.grey,
+            color: Colors.yellow,
           ),
           Text(
             'You do not have any tasks yet.',
