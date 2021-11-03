@@ -4,6 +4,8 @@ import 'controllers/game_controller.dart';
 class GameProvider extends InheritedWidget {
   final _controller = GameController();
 
+  final asd = 'asdf';
+
   GameProvider({Key? key, required Widget child})
       : super(key: key, child: child);
 
@@ -15,5 +17,4 @@ class GameProvider extends InheritedWidget {
         context.dependOnInheritedWidgetOfExactType<GameProvider>();
     return provider!._controller;
   }
-
 }
