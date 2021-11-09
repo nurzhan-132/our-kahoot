@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import '../models/user.dart';
-import '../utils/user_preferences.dart';
+import '../controllers/user_controller.dart';
 import '../widgets/birthday_widget.dart';
 import '../widgets/button_widget.dart';
 import '../widgets/pets_button_widget.dart';
@@ -34,8 +34,8 @@ class _UserScreenState extends State<UserScreen> {
     print('Id: $id');
 
     user = widget.idUser == null
-        ? User(id: id)
-        : UserPreferences.getUser(widget.idUser);
+        ? User(id: id, dateOfBirth: DateTime.now())
+        : UserController.getUser(widget.idUser);
   }
 
   @override
@@ -191,14 +191,14 @@ class _UserScreenState extends State<UserScreen> {
         final isNewUser = widget.idUser == null;
 
         if (isNewUser) {
-          await UserPreferences.addUsers(user);
-          await UserPreferences.setUser(user);
+          await UserController.addUsers(user);
+          await UserController.setUser(user);
 
           Navigator.of(context).pushReplacement(MaterialPageRoute(
             builder: (context) => UserScreen(idUser: user.id),
           ));
         } else {
-          await UserPreferences.setUser(user);
+          await UserController.setUser(user);
         }
       });
 

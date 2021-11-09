@@ -2,7 +2,7 @@ import 'dart:convert';
 import '../models/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class UserPreferences {
+class UserController {
   static late SharedPreferences _preferences;
 
   static const _keyUsers = 'users';

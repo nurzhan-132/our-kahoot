@@ -1,81 +1,103 @@
-import '../services/game_services.dart';
-import '../models/data_layer.dart';
+import 'dart:convert';
+import '../models/game.dart';
+import '../models/task.dart';
+import '../models/answer.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class GameController {
-  final services = GameServices();
+  static late SharedPreferences _preferences;
 
-  List<Game> get games => List.unmodifiable(services.getAllGames());
+  static const _keyGames = 'games';
 
-  void addNewGame(String name) {
-    if (name.isEmpty) {
-      return;
-    }
+  static Future init() async =>
+      _preferences = await SharedPreferences.getInstance();
 
-    name = _checkForDuplicates(games.map((game) => game.name), name);
-    services.createGame(name);
+  static Future setGame(Game game) async {
+    final json = jsonEncode(game.toJson());
+    final idGame = game.id;
+
+    await _preferences.setString(idGame, json);
   }
 
-  void deleteGame(Game game) {
-    services.delete(game);
+  static Future setAnswerText(String idGame, String idTask, String idAnswer, String answerText) async {
+    Game game = getGame(idGame);
+    Task task = game.tasks.firstWhere((element) => element.id == idTask);
+    Answer answer = task.answers.firstWhere((element) => element.id == idAnswer);
+    answer.answerText = answerText;
+    setGame(game);
   }
 
-  void saveGame(Game game) {
-    services.saveGame(game);
+  static Future setAnswerCorrectness(String idGame, String idTask, String idAnswer, bool correctness) async {
+    Game game = getGame(idGame);
+    Task task = game.tasks.firstWhere((element) => element.id == idTask);
+    Answer answer = task.answers.firstWhere((element) => element.id == idAnswer);
+    answer.correctness = correctness;
+    setGame(game);
   }
 
-  void addNewTask(Game game, String questionText) {
-    if (questionText.isEmpty) {
-      return;
-    }
+  static Game getGame(String? idGame) {
+    final json = _preferences.getString(idGame);
 
-    questionText = _checkForDuplicates(game.tasks.map((task) => task.questionText), questionText);
-    services.createTask(game, questionText);
-  }
-
-  void deleteTask(Game game, Task task) {
-    services.deleteTask(game, task);
+    return Game.fromJson(jsonDecode(json));
   }
   
-  String _checkForDuplicates(Iterable<String> items, String text) {
-    final duplicatedCount = items.where((item) => item.contains(text)).length;
+  static Task getTask(String? idGame, String? idTask) {
+    final json = _preferences.getString(idGame);
+    Game game = Game.fromJson(jsonDecode(json));
+    Task task = game.tasks.firstWhere((element) => element.id == idTask);
+    return task;
+  }
 
-    if (duplicatedCount > 0) {
-      text += ' ${duplicatedCount + 1}';
+  static void deleteGame(String? idGame) {
+    //_preferences.remove(idGame);
+  }
+
+  static void deleteTask(String? idGame, Task task) {
+    // final json = _preferences.getString(idGame);
+    // Game game = Game.fromJson(jsonDecode(json));
+    // game.tasks.remove(task);
+    // setGame(game);
+  }
+
+  static void deleteAnswer(String? idGame, Task task, Answer answer) {
+    // final json = _preferences.getString(idGame);
+    // Game game = Game.fromJson(jsonDecode(json));
+    // task.answers.remove(answer);
+    // setGame(game);
+  }
+
+  static void addTasks(String? idGame, Task task) async {
+    Game game = getGame(idGame);
+    game.tasks.add(task);
+    setGame(game);
+  }
+
+  static Future addAnswer(String? idGame, String? taskId, Answer answer) async {
+    Game game = getGame(idGame);
+    Task ntask = game.tasks.firstWhere((element) => element.id == taskId);
+    ntask.answers.add(answer);
+    setGame(game);
+    print("WTFFFF?????");
+  }
+
+  static Future addGames(Game game) async {
+    final idGames = _preferences.getStringList(_keyGames) ?? <String>[];
+    final newIdGames = List.of(idGames)..add(game.id);
+
+    await _preferences.setStringList(_keyGames, newIdGames);
+    setGame(game);
+  }
+
+  static List<Game> getGames() {
+    final idGames = _preferences.getStringList(_keyGames);
+
+    if (idGames == null) {
+      return <Game>[];
+    } else {
+      return idGames.map<Game>(getGame).toList();
     }
-
-    return text;
-  }
- 
-  // void addNewAnswer(Game game, Task task, [String? answerText]) {
-    // Task _task = game.tasks.where((task_) => task_ == task).single;
-    // _task.answers.add();
-
-  //   if (answerText == null || answerText.isEmpty) {
-  //     answerText = '';
-  //   }
-
-  //   description = _checkForDuplicates(
-  //       plan.tasks.map((task) => task.description), description);
-  //   services.addTask(plan, description);
-  // }
-
-  // void deleteAnswer(Game game, Task task, Answer answer) {
-
-  // }
-
-  void addNewAnswer(Game game, Task task, [String? answerText]) {
-    if (answerText == null || answerText.isEmpty) {
-      answerText = '';
-    }
-
-    //Task _task = game.tasks.where((task_) => task_ == task).single;
-    //_task.answers.add();
-
-    //answerText = _checkForDuplicates(_task.answers.map((answer) => answer.answerText), answerText);
-    services.createAnswer(game, task, answerText);
   }
 
-  void deleteAnswer(Game game, Task task, Answer answer) {
-    services.deleteAnswer(game, task, answer);
-  }
+
+
 }
