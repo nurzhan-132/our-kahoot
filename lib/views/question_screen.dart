@@ -1,23 +1,23 @@
 import 'package:flutter/material.dart';
-import '../game_provider.dart';
+import '../controllers/game_controller.dart';
 import '../models/data_layer.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:uuid/uuid.dart';
 
 class QuestionScreen extends StatefulWidget {
   //static const route = '/question_screen';
-  final Game game;
-  final Task task;
+  final String? idGame;
+  final String? idTask;
   
-  const QuestionScreen({Key? key, required this.game,required this.task}) : super(key: key);
+  const QuestionScreen({Key? key, this.idGame, this.idTask}) : super(key: key);
 
   @override
   _QuestionScreenState createState() => _QuestionScreenState();
 }
 
 class _QuestionScreenState extends State<QuestionScreen> {
-  Game get game => widget.game;
-  Task get task => widget.task;
-
+  Game get game => GameController.getGame(widget.idGame);
+  Task get task => GameController.getTask(widget.idGame, widget.idTask);
 
   @override
   Widget build(BuildContext context) {
@@ -38,12 +38,13 @@ class _QuestionScreenState extends State<QuestionScreen> {
     );
   }
 
-  Widget _buildAddAnswerButton() {
+  Widget _buildAddAnswerButton()  {
     return FloatingActionButton(
       child: const Icon(Icons.add),
-      onPressed: () {
-        final controller = GameProvider.of(context);
-        controller.addNewAnswer(game, task);
+      onPressed: () async{
+        final id = Uuid().v4();
+        Answer answer = new Answer(id: id);
+        await GameController.addAnswer(game.id, task.id, answer);
         setState(() {});
       },
     );
@@ -63,9 +64,9 @@ class _QuestionScreenState extends State<QuestionScreen> {
         background: Container(color: Colors.red),
         direction: DismissDirection.endToStart,
         onDismissed: (_) {
-          final controller = GameProvider.of(context);
-          controller.deleteAnswer(game, task, answer);
-          setState(() {});
+          //task.answers.remove(answer);
+          //GamePreferences.deleteAnswer(game.id, task, answer);
+          //setState(() {});
         },
         child: ListTile(
           trailing: Checkbox(
@@ -73,9 +74,8 @@ class _QuestionScreenState extends State<QuestionScreen> {
             onChanged: (selected) {
               setState(() {
                 answer.correctness = selected!;
-                final controller = GameProvider.of(context);
-                controller.saveGame(game);  
               });
+              GameController.setAnswerCorrectness(game.id, task.id, answer.id, answer.correctness);
             },
           ),
           title: TextFormField(
@@ -85,11 +85,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
             ),
             initialValue: answer.answerText,
             onFieldSubmitted: (text) {
-              setState(() {
-                answer.answerText = text;
-                final controller = GameProvider.of(context);
-                controller.saveGame(game);
-              });
+                GameController.setAnswerText(game.id, task.id, answer.id, text);
             },
           ),
         )

@@ -3,7 +3,7 @@ import 'settings.dart';
 class User {
   final String id;
   final String name;
-  final DateTime? dateOfBirth;
+  final DateTime dateOfBirth;
   final String imagePath;
   final List<String> pets;
   final Settings settings;
@@ -11,7 +11,7 @@ class User {
   const User({
     this.id = '',
     this.name = '',
-    this.dateOfBirth,
+    required this.dateOfBirth,
     this.imagePath = '',
     this.pets = const [],
     this.settings = const Settings(),
@@ -37,7 +37,7 @@ class User {
   static User fromJson(Map<String, dynamic> json) => User(
     id: json['id'],
     name: json['name'],
-    dateOfBirth: DateTime.tryParse(json['dateOfBirth']),
+    dateOfBirth: DateTime.tryParse(json['dateOfBirth']) ?? DateTime.now(),
     imagePath: json['imagePath'],
     pets: List<String>.from(json['pets']),
     settings: Settings.fromJson(json['settings']),
@@ -46,7 +46,7 @@ class User {
   Map<String, dynamic> toJson() => {
     'id': id,
     'name': name,
-    'dateOfBirth': dateOfBirth!.toIso8601String(),
+    'dateOfBirth': dateOfBirth!.toIso8601String() ?? DateTime.now(),
     'imagePath': imagePath,
     'pets': pets,
     'settings': settings.toJson(),

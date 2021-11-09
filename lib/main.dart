@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'controllers/game_controller.dart';
 import 'views/login_screen.dart';
 import './views/game_creator_screen.dart';
 import 'views/home_screen.dart';
 import 'views/user_screen.dart';
-import 'utils/user_preferences.dart';
-import 'utils/user_simple_preferences.dart';
+import 'controllers/user_controller.dart';
 import 'package:flutter/services.dart';
 
 
@@ -35,7 +35,8 @@ Future main() async {
     DeviceOrientation.portraitDown,
   ]);
 
-  await UserPreferences.init();
+  await UserController.init();
+  await GameController.init();
 
   runApp(MyApp());
 }

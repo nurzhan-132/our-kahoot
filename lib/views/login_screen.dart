@@ -1,11 +1,8 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import '../models/user.dart';
-import 'user_screen.dart';
-import '../utils/user_preferences.dart';
+import '../controllers/user_controller.dart';
 import '../widgets/title_widget.dart';
-import '../game_provider.dart';
 import 'game_creator_screen.dart';
 
 
@@ -21,7 +18,7 @@ class _LoginScreenState extends State<LoginScreen> {
   void initState() {
     super.initState();
 
-    users = UserPreferences.getUsers();
+    users = UserController.getUsers();
   }
 
   @override
@@ -79,10 +76,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return ListTile(
       tileColor: Colors.white24,
       onTap: () => Navigator.of(context).push(MaterialPageRoute(
-          builder: (_) => GameProvider(
-              child: const MaterialApp(
-                home: GameCreatorScreen(),
-              )))),
+          builder: (_) => GameCreatorScreen())),
       leading: user.imagePath.isEmpty
           ? null
           : CircleAvatar(backgroundImage: FileImage(imageFile)),
