@@ -4,6 +4,10 @@ import '../models/user.dart';
 import '../controllers/user_controller.dart';
 import '../widgets/title_widget.dart';
 import 'game_creator_screen.dart';
+import 'home_screen.dart';
+import '../animations/ltor_page_route.dart';
+import '../animations/custom_page_route.dart';
+
 
 
 class LoginScreen extends StatefulWidget {
@@ -39,9 +43,11 @@ class _LoginScreenState extends State<LoginScreen> {
           Positioned(
             left: 16,
             top: 24,
-            child: GestureDetector(
-              onTap: () => Navigator.of(context).pop(),
-              child: Icon(Icons.arrow_back, size: 32),
+            child: IconButton(
+              icon: Icon(Icons.arrow_back, size: 32),
+              onPressed: () => Navigator.of(context).push(LtorPageRoute(
+                child: HomeScreen(),
+              )),
             ),
           ),
         ],
@@ -75,8 +81,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
     return ListTile(
       tileColor: Colors.white24,
-      onTap: () => Navigator.of(context).push(MaterialPageRoute(
-          builder: (_) => GameCreatorScreen())),
+      onTap: () => Navigator.of(context).push(CustomPageRoute(
+          child: GameCreatorScreen())),
       leading: user.imagePath.isEmpty
           ? null
           : CircleAvatar(backgroundImage: FileImage(imageFile)),
