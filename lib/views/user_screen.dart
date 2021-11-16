@@ -10,6 +10,8 @@ import '../widgets/pets_button_widget.dart';
 import '../widgets/switch_widget.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:uuid/uuid.dart';
+import 'home_screen.dart';
+import '../animations/ltor_page_route.dart';
 
 class UserScreen extends StatefulWidget {
   final String? idUser;
@@ -48,18 +50,22 @@ class _UserScreenState extends State<UserScreen> {
             Positioned(
               left: 16,
               top: 24,
-              child: GestureDetector(
-                onTap: () => Navigator.of(context).pop(),
-                child: Icon(Icons.arrow_back, size: 32),
+              child: IconButton(
+                icon: Icon(Icons.arrow_back, size: 32),
+                onPressed: () => Navigator.of(context).push(LtorPageRoute(
+                  child: HomeScreen(),
+                )),
               ),
             ),
           if (widget.idUser != null)
             Positioned(
               right: 16,
               top: 24,
-              child: GestureDetector(
-                onTap: () => Navigator.of(context).pop(),
-                child: Icon(Icons.logout, size: 32),
+              child: IconButton(
+                icon: Icon(Icons.arrow_back, size: 32),
+                onPressed: () => Navigator.of(context).push(LtorPageRoute(
+                  child: HomeScreen(),
+                )),
               ),
             ),
         ],

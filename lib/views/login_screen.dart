@@ -5,6 +5,9 @@ import '../controllers/user_controller.dart';
 import '../widgets/title_widget.dart';
 import 'game_creator_screen.dart';
 import 'game_user_screen.dart';
+import 'home_screen.dart';
+import '../animations/ltor_page_route.dart';
+import '../animations/custom_page_route.dart';
 
 
 class LoginScreen extends StatefulWidget {
@@ -40,9 +43,11 @@ class _LoginScreenState extends State<LoginScreen> {
           Positioned(
             left: 16,
             top: 24,
-            child: GestureDetector(
-              onTap: () => Navigator.of(context).pop(),
-              child: Icon(Icons.arrow_back, size: 32),
+            child: IconButton(
+              icon: Icon(Icons.arrow_back, size: 32),
+              onPressed: () => Navigator.of(context).push(LtorPageRoute(
+                child: HomeScreen(),
+              )),
             ),
           ),
         ],
