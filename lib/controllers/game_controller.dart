@@ -48,6 +48,12 @@ class GameController {
     return task;
   }
 
+  static List<Task> getTasks(String? idGame) {
+    final json = _preferences.getString(idGame);
+    Game game = Game.fromJson(jsonDecode(json));
+    return game.tasks;
+  }
+
   static void deleteGame(String? idGame) {
     //_preferences.remove(idGame);
   }
@@ -77,7 +83,6 @@ class GameController {
     Task ntask = game.tasks.firstWhere((element) => element.id == taskId);
     ntask.answers.add(answer);
     setGame(game);
-    print("WTFFFF?????");
   }
 
   static Future addGames(Game game) async {

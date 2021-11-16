@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'controllers/game_controller.dart';
 import 'views/login_screen.dart';
 import './views/game_creator_screen.dart';
@@ -45,7 +46,7 @@ class MyApp extends StatelessWidget {
   static final String title = 'Login & Signup';
 
   @override
-  Widget build(BuildContext context) => MaterialApp(
+  Widget build(BuildContext context) => GetMaterialApp(
     debugShowCheckedModeBanner: false,
     title: title,
     theme: ThemeData(

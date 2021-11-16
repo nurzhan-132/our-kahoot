@@ -1,29 +1,23 @@
 class Settings {
-  final bool allowNewsletter;
-  final bool allowNotifications;
+  final bool isCreator;
 
   const Settings({
-    this.allowNewsletter = true,
-    this.allowNotifications = true,
+    this.isCreator = false,
   });
 
   Settings copy({
-   required bool allowNewsletter,
-   required bool allowNotifications,
+   required bool isCreator,
   }) =>
       Settings(
-        allowNewsletter: allowNewsletter ?? this.allowNewsletter,
-        allowNotifications: allowNotifications ?? this.allowNotifications,
+        isCreator: isCreator
       );
 
   static Settings fromJson(Map<String, dynamic> json) => Settings(
-    allowNewsletter: json['allowNewsletter'],
-    allowNotifications: json['allowNotifications'],
+    isCreator: json['isCreator'],
   );
 
   Map<String, dynamic> toJson() => {
-    'allowNewsletter': allowNewsletter,
-    'allowNotifications': allowNotifications,
+    'isCreator': isCreator,
   };
 }
 

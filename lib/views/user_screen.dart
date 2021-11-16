@@ -74,12 +74,11 @@ class _UserScreenState extends State<UserScreen> {
       const SizedBox(height: 32),
       buildName(),
       const SizedBox(height: 12),
+      buildPassword(),
+      const SizedBox(height: 12),
       buildBirthday(),
       const SizedBox(height: 12),
-      buildPets(),
-      const SizedBox(height: 12),
-      buildAllowNotifications(),
-      buildAllowNewsletter(),
+      buildIsCreator(),
       const SizedBox(height: 32),
       buildButton(),
     ],
@@ -139,46 +138,32 @@ class _UserScreenState extends State<UserScreen> {
     ),
   );
 
+  Widget buildPassword() => buildTitle(
+    title: 'Password',
+    child: TextFormField(
+      initialValue: user.password,
+      obscureText: true,
+      decoration: InputDecoration(
+        border: OutlineInputBorder(),
+        hintText: 'Your Password',
+        
+      ),
+      onChanged: (password) => setState(() => user = user.copy(password: password)),
+    ),
+  );
+
   Widget buildBirthday() => BirthdayWidget(
     birthday: user.dateOfBirth,
     onChangedBirthday: (dateOfBirth) =>
         setState(() => user = user.copy(dateOfBirth: dateOfBirth)),
   );
 
-  Widget buildPets() => buildTitle(
-    title: 'Pets',
-    child: PetsButtonsWidget(
-      pets: user.pets,
-      onSelectedPet: (pet) => setState(() {
-        final pets = user.pets.contains(pet)
-            ? (List.of(user.pets)..remove(pet))
-            : (List.of(user.pets)..add(pet));
-
-        setState(() => user = user.copy(pets: pets));
-      }),
-    ),
-  );
-
-  Widget buildAllowNotifications() => SwitchWidget(
-    title: 'Allow Notifications',
-    value: user.settings.allowNotifications,
-    onChanged: (allowNotifications) {
+  Widget buildIsCreator() => SwitchWidget(
+    title: 'Are you creator?',
+    value: user.settings.isCreator,
+    onChanged: (isCreator) {
       final settings = user.settings.copy(
-        allowNotifications: allowNotifications,
-        allowNewsletter: false,
-      );
-
-      setState(() => user = user.copy(settings: settings));
-    },
-  );
-
-  Widget buildAllowNewsletter() => SwitchWidget(
-    title: 'Allow Newsletter',
-    value: user.settings.allowNewsletter,
-    onChanged: (allowNewsletter) {
-      final settings = user.settings.copy(
-        allowNewsletter: allowNewsletter,
-        allowNotifications: false,
+        isCreator: isCreator,
       );
 
       setState(() => user = user.copy(settings: settings));
