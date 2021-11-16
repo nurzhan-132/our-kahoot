@@ -4,10 +4,10 @@ import '../models/user.dart';
 import '../controllers/user_controller.dart';
 import '../widgets/title_widget.dart';
 import 'game_creator_screen.dart';
+import 'game_user_screen.dart';
 import 'home_screen.dart';
 import '../animations/ltor_page_route.dart';
 import '../animations/custom_page_route.dart';
-
 
 
 class LoginScreen extends StatefulWidget {
@@ -81,12 +81,22 @@ class _LoginScreenState extends State<LoginScreen> {
 
     return ListTile(
       tileColor: Colors.white24,
-      onTap: () => Navigator.of(context).push(CustomPageRoute(
-          child: GameCreatorScreen())),
+      onTap: () => setScreen(user),
       leading: user.imagePath.isEmpty
           ? null
           : CircleAvatar(backgroundImage: FileImage(imageFile)),
       title: Text(user.name, style: TextStyle(fontSize: 24)),
     );
+  }
+
+  void setScreen(User user) {
+    if (user.settings.isCreator == true) {
+      Navigator.of(context).push(MaterialPageRoute(
+          builder: (_) => GameCreatorScreen(idUser: user.id)));
+    } else {
+      Navigator.of(context).push(MaterialPageRoute(
+          builder: (_) => GameUserScreen(idUser: user.id)));
+    }
+    
   }
 }

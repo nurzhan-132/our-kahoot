@@ -6,6 +6,7 @@ class UserController {
   static late SharedPreferences _preferences;
 
   static const _keyUsers = 'users';
+  static String? currentUser;
 
   static Future init() async =>
       _preferences = await SharedPreferences.getInstance();
@@ -19,8 +20,12 @@ class UserController {
 
   static User getUser(String? idUser) {
     final json = _preferences.getString(idUser);
-
+    currentUser = idUser;
     return User.fromJson(jsonDecode(json));
+  }
+
+  String? getCurrentUser() {
+    return currentUser;
   }
 
   static Future addUsers(User user) async {
