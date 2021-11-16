@@ -3,6 +3,7 @@ import 'login_screen.dart';
 import 'user_screen.dart';
 import '../widgets/button_widget.dart';
 import '../widgets/title_widget.dart';
+import '../animations/custom_page_route.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -31,15 +32,15 @@ class _HomeScreenState extends State<HomeScreen> {
       const SizedBox(height: 24),
       ButtonWidget(
         text: 'Login',
-        onClicked: () => Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => LoginScreen(),
+        onClicked: () => Navigator.of(context).push(CustomPageRoute(
+           child: LoginScreen(),
         )),
       ),
       const SizedBox(height: 24),
       ButtonWidget(
         text: 'Register',
-        onClicked: () => Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => UserScreen(),
+        onClicked: () => Navigator.of(context).push(CustomPageRoute(
+           child: UserScreen(),
         )),
       ),
     ],
