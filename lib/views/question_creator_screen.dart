@@ -21,7 +21,6 @@ class _QuestionCreatorScreenState extends State<QuestionCreatorScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.deepPurpleAccent,
       body: Column(
         children: [_buildListCreator(), Expanded(child: _buildTask())],
       ),

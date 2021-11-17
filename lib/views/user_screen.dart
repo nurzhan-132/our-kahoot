@@ -12,6 +12,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:uuid/uuid.dart';
 import 'home_screen.dart';
 import '../animations/ltor_page_route.dart';
+import 'package:form_field_validator/form_field_validator.dart';
 
 class UserScreen extends StatefulWidget {
   final String? idUser;
@@ -135,11 +136,13 @@ class _UserScreenState extends State<UserScreen> {
   Widget buildName() => buildTitle(
     title: 'Name',
     child: TextFormField(
+      autovalidate: true,
       initialValue: user.name,
       decoration: InputDecoration(
         border: OutlineInputBorder(),
         hintText: 'Your Name',
       ),
+      validator: MinLengthValidator(1,errorText: "At least write 1 letter ;)"),
       onChanged: (name) => setState(() => user = user.copy(name: name)),
     ),
   );
@@ -147,13 +150,16 @@ class _UserScreenState extends State<UserScreen> {
   Widget buildPassword() => buildTitle(
     title: 'Password',
     child: TextFormField(
+      autovalidate: true,
       initialValue: user.password,
       obscureText: true,
       decoration: InputDecoration(
         border: OutlineInputBorder(),
         hintText: 'Your Password',
+
         
       ),
+      validator: MinLengthValidator(4,errorText: "Should be at least 4 characters!"),
       onChanged: (password) => setState(() => user = user.copy(password: password)),
     ),
   );
@@ -179,15 +185,18 @@ class _UserScreenState extends State<UserScreen> {
   Widget buildButton() => ButtonWidget(
       text: 'Save',
       onClicked: () async {
+        if(user.password.length >=4 && user.name.length >0){
         final isNewUser = widget.idUser == null;
 
         if (isNewUser) {
           await UserController.addUsers(user);
           await UserController.setUser(user);
 
-          Navigator.of(context).pushReplacement(MaterialPageRoute(
+
+            Navigator.of(context).pushReplacement(MaterialPageRoute
+          (
             builder: (context) => UserScreen(idUser: user.id),
-          ));
+          ));}
         } else {
           await UserController.setUser(user);
         }

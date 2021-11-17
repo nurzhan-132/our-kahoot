@@ -23,7 +23,6 @@ class _QuestionScreenState extends State<QuestionScreen> {
   Widget build(BuildContext context) {
     
     return Scaffold(
-      backgroundColor: Colors.deepPurpleAccent,
       appBar: AppBar(
         title: const Text('Answers',textAlign: TextAlign.center, style: TextStyle(
           fontSize: 20,
