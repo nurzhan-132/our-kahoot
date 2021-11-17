@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
-import '../game_provider.dart';
+import '../models/game.dart';
+import '../controllers/game_controller.dart';
 import './question_creator_screen.dart';
+import 'package:uuid/uuid.dart';
+import '../models/user.dart';
+import '../controllers/user_controller.dart';
 
 class GameCreatorScreen extends StatefulWidget {
   static const route = '/game_creator_screen';
-  const GameCreatorScreen({Key? key}) : super(key: key);
+  final String? idUser;
+
+  const GameCreatorScreen({Key? key, this.idUser}) : super(key: key);
 
   @override
   _GameCreatorScreenState createState() => _GameCreatorScreenState();
@@ -12,6 +18,16 @@ class GameCreatorScreen extends StatefulWidget {
 
 class _GameCreatorScreenState extends State<GameCreatorScreen> {
   final textController = TextEditingController();
+  late List<Game> games;
+  late User user;
+
+  @override
+  void initState() {
+    super.initState();
+
+    games = GameController.getGames();
+    user = UserController.getUser(widget.idUser);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,11 +57,13 @@ class _GameCreatorScreenState extends State<GameCreatorScreen> {
     );
   }
 
-  void addGame() {
+  void addGame() async {
     final text = textController.text;
 
-    final controller = GameProvider.of(context);
-    controller.addNewGame(text);
+    final id = Uuid().v4();
+    Game game = new Game(id: id, name: text);
+    await GameController.addGames(game);
+    games = GameController.getGames();
 
     textController.clear();
     FocusScope.of(context).requestFocus(FocusNode());
@@ -53,7 +71,7 @@ class _GameCreatorScreenState extends State<GameCreatorScreen> {
   }
 
   Widget _buildGame() {
-    final games = GameProvider.of(context).games;
+    //final games = GameProvider.of(context).games;
 
     if (games.isEmpty) {
       return Column(
@@ -81,8 +99,7 @@ class _GameCreatorScreenState extends State<GameCreatorScreen> {
             background: Container(color: Colors.red),
             direction: DismissDirection.endToStart,
             onDismissed: (_) {
-              final controller = GameProvider.of(context);
-              controller.deleteGame(game);
+              GameController.deleteGame(game.id);
               setState(() {});
             },
             child: ListTile(
@@ -92,8 +109,8 @@ class _GameCreatorScreenState extends State<GameCreatorScreen> {
                 //Navigator.of(context).pushNamed(QuestionCreatorScreen.route, arguments: game);
                 // Navigator.of(context).push(MaterialPageRoute(
                 //     builder: (_) => GameProvider(child: MaterialApp(home: QuestionCreatorScreen(game: game)))));
-                Navigator.of(context).push(
-                  MaterialPageRoute(builder: (_) => QuestionCreatorScreen(game: game)));
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (_) => QuestionCreatorScreen(idGame: game.id)));
               },
             ));
       },

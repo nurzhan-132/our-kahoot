@@ -1,13 +1,12 @@
 import './answer.dart';
-import '../repositories/repository.dart';
 
 class Task {
-  late final int id;
+  late final String id;
   String questionText;
-  List<Answer> answers = [];
+  List<Answer> answers;
 
   Task({
-    required this.id, this.questionText = '',
+    required this.id, this.questionText = '', this.answers = const[]
   });
 
   String numberOfAnswersMessage() {
@@ -17,16 +16,33 @@ class Task {
     return 'There are ${answers.length} answers';
   }
 
-  Task.fromModel(Model model)
-      : id = model.id,
-        questionText = model.data['questionText'] ?? '',
-        answers = model.data['answers']
-                ?.map<Answer>((answer) => Answer.fromModel(answer))
-                ?.toList() ??
-            <Answer>[];
+  Task copy({
+    String? id,
+    String? questionText,
+    List<Answer>? answers,
+  }) =>
+      Task(
+        id: id ?? this.id,
+        questionText: questionText ?? this.questionText,
+        answers: answers ?? this.answers,
+      );
 
-  Model toModel() => Model(id: id, data: {
-        'questionText': questionText,
-        'answers': answers.map((answer) => answer.toModel()).toList()
-      });
+  static Task fromJson(Map<String, dynamic> json) => Task(
+    id: json['id'],
+    questionText: json['questionText'],
+    answers:json['answers']
+                ?.map<Answer>((answer) => Answer.fromJson(answer))
+                ?.toList() ??
+            <Answer>[],
+  );
+
+  Map<String, dynamic> toJson() => {
+    'id': id,
+    'questionText': questionText,
+    'answers': answers.map((answer) => answer.toJson()).toList(),
+  };
+
+
+  @override
+  String toString() => 'Task{id: $id, questionText: $questionText}';
 }

@@ -1,17 +1,31 @@
-import '../repositories/repository.dart';
 
 class Answer {
-  final int id;
+  final String id;
   String answerText;
   bool correctness;
 
   Answer({required this.id, this.answerText = '', this.correctness = false});
 
-  Answer.fromModel(Model model)
-      : id = model.id,
-        answerText = model.data['answerText'] ?? '',
-        correctness = model.data['correctness'] ?? false;
+  Answer copy({
+    String? id,
+    String? answerText,
+    bool? correctness,
+  }) =>
+      Answer(
+        id: id ?? this.id,
+        answerText: answerText ?? this.answerText,
+        correctness: correctness ?? this.correctness,
+      );
 
-  Model toModel() => Model(
-      id: id, data: {'answerText': answerText, 'correctness': correctness});
+  static Answer fromJson(Map<String, dynamic> json) => Answer(
+    id: json['id'],
+    answerText: json['answerText'],
+    correctness: json['correctness'],
+  );
+
+  Map<String, dynamic> toJson() => {
+    'id': id,
+    'answerText': answerText,
+    'correctness': correctness,
+  };
 }

@@ -1,178 +1,102 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
-import '../game_provider.dart';
-import './registration_screen.dart';
+import '../models/user.dart';
+import '../controllers/user_controller.dart';
+import '../widgets/title_widget.dart';
 import 'game_creator_screen.dart';
+import 'game_user_screen.dart';
+import 'home_screen.dart';
+import '../animations/ltor_page_route.dart';
+import '../animations/custom_page_route.dart';
+
 
 class LoginScreen extends StatefulWidget {
-  static const route = '/login';
-  const LoginScreen({Key? key}) : super(key: key);
-
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final _formKey = GlobalKey<FormState>();
-  final _nameController = TextEditingController();
-  final _passwordController = TextEditingController();
+  late List<User> users;
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        backgroundColor: Colors.deepPurpleAccent,
-        body: Padding(
-            padding: EdgeInsets.all(25),
-            child: Center(
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    SizedBox(height: 40),
-                    Icon(Icons.person_outlined,
-                        color: Colors.grey[300], size: 140),
-                    SizedBox(height: 13),
-                    Text(
-                      'Welcome!',
-                      style: TextStyle(
-                        fontSize: 30,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    Text(
-                      'Sign in to continue',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.yellow,
-                      ),
-                    ),
-                    SizedBox(height: 20),
-                    Form(
-                      key: _formKey,
-                      child: Column(
-                        children: [
-                          Container(
-                              color: Colors.yellow,
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 10, vertical: 5),
-                              child: TextFormField(
-                                controller: _nameController,
-                                style: TextStyle(
-                                  color: Theme.of(context).primaryColor,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 22,
-                                ),
-                                decoration: InputDecoration(
-                                    border: InputBorder.none,
-                                    prefixIcon: Icon(
-                                        Icons.alternate_email_sharp,
-                                        size: 30),
-                                    labelText: 'username',
-                                    labelStyle: TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.w800,
-                                    )),
-                                validator: (text) =>
-                                    text!.isEmpty ? 'Enter your login' : null,
-                              )),
-                          SizedBox(height: 10),
-                          Container(
-                              color: Colors.yellow,
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 10, vertical: 5),
-                              child: TextFormField(
-                                controller: _passwordController,
-                                obscureText: true,
-                                style: TextStyle(
-                                  color: Theme.of(context).primaryColor,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 22,
-                                ),
-                                decoration: InputDecoration(
-                                    border: InputBorder.none,
-                                    prefixIcon: Icon(Icons.lock, size: 30),
-                                    labelText: 'password',
-                                    labelStyle: TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.w800,
-                                    )),
-                                validator: (text) => text!.isEmpty
-                                    ? 'Enter your password'
-                                    : null,
-                              )),
-                          SizedBox(height: 10),
-                          SizedBox(
-                              height: 55,
-                              width: double.infinity,
-                              child: FlatButton(
-                                color: Colors.yellow,
-                                textColor: Colors.white,
-                                onPressed: _validate,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                                child: Text(
-                                  'Login',
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              )),
-                          SizedBox(height: 20),
-                        ],
-                      ),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          "Don't have an account? --> ",
-                          style: TextStyle(
-                            fontSize: 18,
-                          ),
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.of(context)
-                                .pushNamed(RegistrationScreen.route);
-                          },
-                          child: Text(
-                            'Register',
-                            style: TextStyle(
-                              color: Colors.yellow,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20,
-                            ),
-                          ),
-                        ),
-                      ],
-                    )
-                  ],
-                ),
-              ),
-            )));
+  void initState() {
+    super.initState();
+
+    users = UserController.getUsers();
   }
 
-  void _validate() {
-    final form = _formKey.currentState;
-    if (!form!.validate()) {
-      return;
+  @override
+  Widget build(BuildContext context) => Scaffold(
+    body: SafeArea(
+      child: Stack(
+        children: [
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: 32, vertical: 96),
+            child: Column(
+              children: <Widget>[
+                TitleWidget(icon: Icons.login, text: 'Login'),
+                const SizedBox(height: 48),
+                Expanded(child: buildUsers()),
+              ],
+            ),
+          ),
+          Positioned(
+            left: 16,
+            top: 24,
+            child: IconButton(
+              icon: Icon(Icons.arrow_back, size: 32),
+              onPressed: () => Navigator.of(context).push(LtorPageRoute(
+                child: HomeScreen(),
+              )),
+            ),
+          ),
+        ],
+      ),
+    ),
+  );
+
+  Widget buildUsers() {
+    if (users.isEmpty) {
+      return Center(
+        child: Text(
+          'There are no users!',
+          style: TextStyle(fontSize: 24),
+        ),
+      );
+    } else {
+      return ListView.separated(
+        itemCount: users.length,
+        separatorBuilder: (context, index) => Container(height: 12),
+        itemBuilder: (context, index) {
+          final user = users[index];
+
+          return buildUser(user);
+        },
+      );
     }
+  }
 
-    Navigator.of(context).push(MaterialPageRoute(
-        builder: (_) => GameProvider(
-                child: const MaterialApp(
-              home: GameCreatorScreen(),
-            ))));
+  Widget buildUser(User user) {
+    final imageFile = File(user.imagePath);
 
-    //final name = _nameController.text;
-    //final password = _passwordController.text;
+    return ListTile(
+      tileColor: Colors.white24,
+      onTap: () => setScreen(user),
+      leading: user.imagePath.isEmpty
+          ? null
+          : CircleAvatar(backgroundImage: FileImage(imageFile)),
+      title: Text(user.name, style: TextStyle(fontSize: 24)),
+    );
+  }
 
-    //check validation of user if ok then:
-
-    // get status of user
-    //final status = 'creator';
-    //Navigator.of(context)
-    //  .pushReplacementNamed(QuestionCreatorScreen.route, arguments: status);
+  void setScreen(User user) {
+    if (user.settings.isCreator == true) {
+      Navigator.of(context).push(MaterialPageRoute(
+          builder: (_) => GameCreatorScreen(idUser: user.id)));
+    } else {
+      Navigator.of(context).push(MaterialPageRoute(
+          builder: (_) => GameUserScreen(idUser: user.id)));
+    }
+    
   }
 }

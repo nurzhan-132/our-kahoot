@@ -1,19 +1,21 @@
 import 'package:flutter/material.dart';
-import '../game_provider.dart';
+import '../controllers/game_controller.dart';
 import './question_screen.dart';
 import '../models/data_layer.dart';
+import 'package:uuid/uuid.dart';
 
 class QuestionCreatorScreen extends StatefulWidget {
   //static const route = '/question_creator_screen';
-  final Game game;
-  const QuestionCreatorScreen({Key? key, required this.game}) : super(key: key);
+
+  final String? idGame;
+  const QuestionCreatorScreen({Key? key, this.idGame}) : super(key: key);
 
   @override
   _QuestionCreatorScreenState createState() => _QuestionCreatorScreenState();
 }
 
 class _QuestionCreatorScreenState extends State<QuestionCreatorScreen> {
-  Game get game => widget.game;
+  Game get game => GameController.getGame(widget.idGame);
   final textController = TextEditingController();
 
   @override
@@ -49,8 +51,10 @@ class _QuestionCreatorScreenState extends State<QuestionCreatorScreen> {
   void addTask() {
     final text = textController.text;
 
-    final controller = GameProvider.of(context);
-    controller.addNewTask(game, text);
+    final id = Uuid().v4();
+    Task task = new Task(id: id, questionText: text);
+    GameController.addTasks(game.id, task);
+
 
     textController.clear();
     FocusScope.of(context).requestFocus(FocusNode());
@@ -87,8 +91,8 @@ class _QuestionCreatorScreenState extends State<QuestionCreatorScreen> {
             background: Container(color: Colors.red),
             direction: DismissDirection.endToStart,
             onDismissed: (_) {
-              final controller = GameProvider.of(context);
-              controller.deleteTask(game, task);
+              //game.tasks.remove(task);
+              GameController.deleteTask(game.id, task);
               setState(() {});
             },
             child: ListTile(
@@ -96,7 +100,7 @@ class _QuestionCreatorScreenState extends State<QuestionCreatorScreen> {
               subtitle: Text(task.numberOfAnswersMessage()),
               onTap: () {
                 Navigator.of(context).push(
-                  MaterialPageRoute(builder: (_) => QuestionScreen(game: game, task: task)));
+                  MaterialPageRoute(builder: (_) => QuestionScreen(idGame: game.id, idTask: task.id)));
                 // Navigator.of(context).push(MaterialPageRoute(
                 //     builder: (_) => TaskProvider(child: MaterialApp(home: QuestionScreen(task: task)))));
                 // Navigator.of(context).push(MaterialPageRoute(
