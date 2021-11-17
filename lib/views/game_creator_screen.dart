@@ -5,6 +5,7 @@ import './question_creator_screen.dart';
 import 'package:uuid/uuid.dart';
 import '../models/user.dart';
 import '../controllers/user_controller.dart';
+import 'login_screen.dart';
 
 class GameCreatorScreen extends StatefulWidget {
   static const route = '/game_creator_screen';
@@ -32,8 +33,15 @@ class _GameCreatorScreenState extends State<GameCreatorScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.green,
       appBar: AppBar(
         title: const Text('Games'),
+        backgroundColor: Colors.red,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back, color: Colors.black),
+          onPressed: () => Navigator.of(context).pushReplacement(
+              MaterialPageRoute(builder: (_) => LoginScreen())),
+        ),
       ),
       body: Column(
         children: [_buildListCreator(), Expanded(child: _buildGame())],

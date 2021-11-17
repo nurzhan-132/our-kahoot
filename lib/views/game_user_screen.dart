@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:our_kahoot/views/login_screen.dart';
 import '../models/game.dart';
 import '../controllers/game_controller.dart';
 import 'package:uuid/uuid.dart';
@@ -33,8 +34,15 @@ class _GameUserScreenState extends State<GameUserScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.green,
       appBar: AppBar(
         title: const Text('Games'),
+        backgroundColor: Colors.red,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back, color: Colors.black),
+          onPressed: () => Navigator.of(context).pushReplacement(
+              MaterialPageRoute(builder: (_) => LoginScreen())),
+        ),
       ),
       body: Column(
         children: [Expanded(child: _buildGame())],
@@ -43,7 +51,6 @@ class _GameUserScreenState extends State<GameUserScreen> {
   }
 
   Widget _buildGame() {
-
     if (games.isEmpty) {
       return Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -71,7 +78,9 @@ class _GameUserScreenState extends State<GameUserScreen> {
               title: Text(game.name),
               subtitle: Text(game.numberOfTasksMessage()),
               onTap: () {
-                Get.to(() => QuestionUserScreen(idGame: game.id,));
+                Get.to(() => QuestionUserScreen(
+                      idGame: game.id,
+                    ));
                 // Navigator.of(context).push(MaterialPageRoute(
                 //     builder: (_) => QuestionUserScreen(idGame: game.id,)));
               },
