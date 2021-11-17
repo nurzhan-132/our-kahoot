@@ -136,11 +136,13 @@ class _UserScreenState extends State<UserScreen> {
   Widget buildName() => buildTitle(
     title: 'Name',
     child: TextFormField(
+      autovalidate: true,
       initialValue: user.name,
       decoration: InputDecoration(
         border: OutlineInputBorder(),
         hintText: 'Your Name',
       ),
+      validator: MinLengthValidator(1,errorText: "At least write 1 letter ;)"),
       onChanged: (name) => setState(() => user = user.copy(name: name)),
     ),
   );
@@ -183,7 +185,7 @@ class _UserScreenState extends State<UserScreen> {
   Widget buildButton() => ButtonWidget(
       text: 'Save',
       onClicked: () async {
-        if(user.password.length >=4){
+        if(user.password.length >=4 && user.name.length >0){
         final isNewUser = widget.idUser == null;
 
         if (isNewUser) {
