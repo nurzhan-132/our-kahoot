@@ -10,7 +10,6 @@ import '../animations/ltor_page_route.dart';
 import '../animations/custom_page_route.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 
-
 class LoginScreen extends StatefulWidget {
   @override
   _LoginScreenState createState() => _LoginScreenState();
@@ -28,33 +27,34 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-    body: SafeArea(
-      child: Stack(
-        children: [
-          Container(
-            padding: EdgeInsets.symmetric(horizontal: 32, vertical: 96),
-            child: Column(
-              children: <Widget>[
-                TitleWidget(icon: Icons.login, text: 'Login'),
-                const SizedBox(height: 48),
-                Expanded(child: buildUsers()),
-              ],
-            ),
+        backgroundColor: Colors.green,
+        body: SafeArea(
+          child: Stack(
+            children: [
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 32, vertical: 96),
+                child: Column(
+                  children: <Widget>[
+                    TitleWidget(icon: Icons.login, text: 'Login'),
+                    const SizedBox(height: 48),
+                    Expanded(child: buildUsers()),
+                  ],
+                ),
+              ),
+              Positioned(
+                left: 16,
+                top: 24,
+                child: IconButton(
+                  icon: Icon(Icons.arrow_back, size: 32),
+                  onPressed: () => Navigator.of(context).push(LtorPageRoute(
+                    child: HomeScreen(),
+                  )),
+                ),
+              ),
+            ],
           ),
-          Positioned(
-            left: 16,
-            top: 24,
-            child: IconButton(
-              icon: Icon(Icons.arrow_back, size: 32),
-              onPressed: () => Navigator.of(context).push(LtorPageRoute(
-                child: HomeScreen(),
-              )),
-            ),
-          ),
-        ],
-      ),
-    ),
-  );
+        ),
+      );
 
   Widget buildUsers() {
     if (users.isEmpty) {
@@ -95,9 +95,8 @@ class _LoginScreenState extends State<LoginScreen> {
       Navigator.of(context).push(MaterialPageRoute(
           builder: (_) => GameCreatorScreen(idUser: user.id)));
     } else {
-      Navigator.of(context).push(MaterialPageRoute(
-          builder: (_) => GameUserScreen(idUser: user.id)));
+      Navigator.of(context).push(
+          MaterialPageRoute(builder: (_) => GameUserScreen(idUser: user.id)));
     }
-    
   }
 }

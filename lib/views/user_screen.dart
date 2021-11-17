@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:our_kahoot/views/login_screen.dart';
 import '../models/user.dart';
 import '../controllers/user_controller.dart';
 import '../widgets/birthday_widget.dart';
@@ -12,7 +13,6 @@ import 'package:path_provider/path_provider.dart';
 import 'package:uuid/uuid.dart';
 import 'home_screen.dart';
 import '../animations/ltor_page_route.dart';
-import 'package:form_field_validator/form_field_validator.dart';
 
 class UserScreen extends StatefulWidget {
   final String? idUser;
@@ -27,7 +27,7 @@ class UserScreen extends StatefulWidget {
 }
 
 class _UserScreenState extends State<UserScreen> {
- late User user;
+  late User user;
 
   @override
   void initState() {
@@ -43,70 +43,56 @@ class _UserScreenState extends State<UserScreen> {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-    body: SafeArea(
-      child: Stack(
-        children: [
-          buildUsers(),
-          if (widget.idUser == null)
-            Positioned(
-              left: 16,
-              top: 24,
-              child: IconButton(
-                icon: Icon(Icons.arrow_back, size: 32),
-                onPressed: () => Navigator.of(context).push(LtorPageRoute(
-                  child: HomeScreen(),
-                )),
-              ),
-            ),
-          if (widget.idUser != null)
-            Positioned(
-              right: 16,
-              top: 24,
-              child: IconButton(
-                icon: Icon(Icons.arrow_back, size: 32),
-                onPressed: () => Navigator.of(context).push(LtorPageRoute(
-                  child: HomeScreen(),
-                )),
-              ),
-            ),
-        ],
-      ),
-    ),
-  );
+        backgroundColor: Colors.green,
+        appBar: AppBar(
+          title: const Text(
+            'Registration',
+          ),
+          centerTitle: true,
+          backgroundColor: Colors.redAccent,
+        ),
+        body: SafeArea(
+          child: Stack(
+            children: [
+              buildUsers(),
+            ],
+          ),
+        ),
+      );
 
   Widget buildUsers() => ListView(
-    padding: EdgeInsets.all(16),
-    children: [
-      buildImage(),
-      const SizedBox(height: 32),
-      buildName(),
-      const SizedBox(height: 12),
-      buildPassword(),
-      const SizedBox(height: 12),
-      buildBirthday(),
-      const SizedBox(height: 12),
-      buildIsCreator(),
-      const SizedBox(height: 32),
-      buildButton(),
-    ],
-  );
+        padding: EdgeInsets.all(16),
+        children: [
+          buildImage(),
+          const SizedBox(height: 32),
+          buildName(),
+          const SizedBox(height: 12),
+          buildPassword(),
+          const SizedBox(height: 12),
+          buildBirthday(),
+          const SizedBox(height: 12),
+          buildIsCreator(),
+          const SizedBox(height: 32),
+          buildButton(),
+        ],
+      );
 
   Widget buildImage() => GestureDetector(
-    child: buildAvatar(),
-    onTap: () async {
-      final image =
-      await ImagePicker().getImage(source: ImageSource.gallery);
+        child: buildAvatar(),
+        onTap: () async {
+          final image =
+              await ImagePicker().getImage(source: ImageSource.gallery);
 
-      if (image == null) return;
+          if (image == null) return;
 
-      final directory = await getApplicationDocumentsDirectory();
-      final id = '_${widget.idUser}_${Uuid().v4()}';
-      final imageFile = File('${directory.path}/${id}_avatar.png');
-      final newImage = await File(image.path).copy(imageFile.path);
+          final directory = await getApplicationDocumentsDirectory();
+          final id = '_${widget.idUser}_${Uuid().v4()}';
+          final imageFile = File('${directory.path}/${id}_avatar.png');
+          final newImage = await File(image.path).copy(imageFile.path);
 
-      setState(() => user = user.copy(imagePath: newImage.path));
-    },
-  );
+          setState(() => user = user.copy(imagePath: newImage.path));
+        },
+      );
 
   Widget buildAvatar() {
     final double size = 64;
@@ -134,69 +120,61 @@ class _UserScreenState extends State<UserScreen> {
   }
 
   Widget buildName() => buildTitle(
-    title: 'Name',
-    child: TextFormField(
-      autovalidate: true,
-      initialValue: user.name,
-      decoration: InputDecoration(
-        border: OutlineInputBorder(),
-        hintText: 'Your Name',
-      ),
-      validator: MinLengthValidator(1,errorText: "At least write 1 letter ;)"),
-      onChanged: (name) => setState(() => user = user.copy(name: name)),
-    ),
-  );
-
-  Widget buildPassword() => buildTitle(
-    title: 'Password',
-    child: TextFormField(
-      autovalidate: true,
-      initialValue: user.password,
-      obscureText: true,
-      decoration: InputDecoration(
-        border: OutlineInputBorder(),
-        hintText: 'Your Password',
-
-        
-      ),
-      validator: MinLengthValidator(4,errorText: "Should be at least 4 characters!"),
-      onChanged: (password) => setState(() => user = user.copy(password: password)),
-    ),
-  );
-
-  Widget buildBirthday() => BirthdayWidget(
-    birthday: user.dateOfBirth,
-    onChangedBirthday: (dateOfBirth) =>
-        setState(() => user = user.copy(dateOfBirth: dateOfBirth)),
-  );
-
-  Widget buildIsCreator() => SwitchWidget(
-    title: 'Are you creator?',
-    value: user.settings.isCreator,
-    onChanged: (isCreator) {
-      final settings = user.settings.copy(
-        isCreator: isCreator,
+        title: 'Name',
+        child: TextFormField(
+          initialValue: user.name,
+          decoration: InputDecoration(
+            border: OutlineInputBorder(),
+            hintText: 'Your Name',
+          ),
+          onChanged: (name) => setState(() => user = user.copy(name: name)),
+        ),
       );
 
-      setState(() => user = user.copy(settings: settings));
-    },
-  );
+  Widget buildPassword() => buildTitle(
+        title: 'Password',
+        child: TextFormField(
+          initialValue: user.password,
+          obscureText: true,
+          decoration: InputDecoration(
+            border: OutlineInputBorder(),
+            hintText: 'Your Password',
+          ),
+          onChanged: (password) =>
+              setState(() => user = user.copy(password: password)),
+        ),
+      );
+
+  Widget buildBirthday() => BirthdayWidget(
+        birthday: user.dateOfBirth,
+        onChangedBirthday: (dateOfBirth) =>
+            setState(() => user = user.copy(dateOfBirth: dateOfBirth)),
+      );
+
+  Widget buildIsCreator() => SwitchWidget(
+        title: 'Are you creator?',
+        value: user.settings.isCreator,
+        onChanged: (isCreator) {
+          final settings = user.settings.copy(
+            isCreator: isCreator,
+          );
+
+          setState(() => user = user.copy(settings: settings));
+        },
+      );
 
   Widget buildButton() => ButtonWidget(
       text: 'Save',
       onClicked: () async {
-        if(user.password.length >=4 && user.name.length >0){
         final isNewUser = widget.idUser == null;
 
         if (isNewUser) {
           await UserController.addUsers(user);
           await UserController.setUser(user);
 
-
-            Navigator.of(context).pushReplacement(MaterialPageRoute
-          (
-            builder: (context) => UserScreen(idUser: user.id),
-          ));}
+          Navigator.of(context).pushReplacement(MaterialPageRoute(
+            builder: (context) => LoginScreen(),
+          ));
         } else {
           await UserController.setUser(user);
         }

@@ -13,36 +13,37 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) => Scaffold(
-    body: SafeArea(
-      child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 32, vertical: 96),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            TitleWidget(icon: Icons.home, text: 'Signup'),
-            buildButtons(),
-          ],
+        backgroundColor: Colors.green,
+        body: SafeArea(
+          child: Container(
+            padding: EdgeInsets.symmetric(horizontal: 32, vertical: 96),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                TitleWidget(icon: Icons.home, text: 'Our-kahoot'),
+                buildButtons(),
+              ],
+            ),
+          ),
         ),
-      ),
-    ),
-  );
+      );
 
   Widget buildButtons() => Column(
-    children: [
-      const SizedBox(height: 24),
-      ButtonWidget(
-        text: 'Login',
-        onClicked: () => Navigator.of(context).push(CustomPageRoute(
-           child: LoginScreen(),
-        )),
-      ),
-      const SizedBox(height: 24),
-      ButtonWidget(
-        text: 'Register',
-        onClicked: () => Navigator.of(context).push(CustomPageRoute(
-           child: UserScreen(),
-        )),
-      ),
-    ],
-  );
+        children: [
+          const SizedBox(height: 24),
+          ButtonWidget(
+            text: 'Sign in',
+            onClicked: () => Navigator.of(context).push(CustomPageRoute(
+              child: LoginScreen(),
+            )),
+          ),
+          const SizedBox(height: 24),
+          ButtonWidget(
+            text: 'Sign up',
+            onClicked: () => Navigator.of(context).push(CustomPageRoute(
+              child: UserScreen(),
+            )),
+          ),
+        ],
+      );
 }
