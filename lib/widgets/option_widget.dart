@@ -1,3 +1,5 @@
+// ignore_for_file: import_of_legacy_library_into_null_safe
+
 import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import '../controllers/quiz_controller.dart';
@@ -37,8 +39,8 @@ class OptionWidget extends StatelessWidget {
           return InkWell(
             onTap: press,
             child: Container(
-              margin: EdgeInsets.only(top: 20),
-              padding: EdgeInsets.all(20),
+              margin: const EdgeInsets.only(top: 20),
+              padding: const EdgeInsets.all(20),
               decoration: BoxDecoration(
                 border: Border.all(color: getTheRightColor()),
                 borderRadius: BorderRadius.circular(15),
@@ -60,7 +62,9 @@ class OptionWidget extends StatelessWidget {
                       borderRadius: BorderRadius.circular(50),
                       border: Border.all(color: getTheRightColor()),
                     ),
-                    child: getTheRightColor() == Colors.grey ? null : Icon(getTheRightIcon(), size: 16),
+                    child: getTheRightColor() == Colors.grey
+                        ? null
+                        : Icon(getTheRightIcon(), size: 16),
                   )
                 ],
               ),

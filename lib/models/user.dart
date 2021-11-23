@@ -35,22 +35,22 @@ class User {
       );
 
   static User fromJson(Map<String, dynamic> json) => User(
-    id: json['id'],
-    name: json['name'],
-    password: json['password'],
-    dateOfBirth: DateTime.tryParse(json['dateOfBirth']) ?? DateTime.now(),
-    imagePath: json['imagePath'],
-    settings: Settings.fromJson(json['settings']),
-  );
+        id: json['id'],
+        name: json['name'],
+        password: json['password'],
+        dateOfBirth: DateTime.tryParse(json['dateOfBirth']) ?? DateTime.now(),
+        imagePath: json['imagePath'],
+        settings: Settings.fromJson(json['settings']),
+      );
 
   Map<String, dynamic> toJson() => {
-    'id': id,
-    'name': name,
-    'password': password,
-    'dateOfBirth': dateOfBirth.toIso8601String(),
-    'imagePath': imagePath,
-    'settings': settings.toJson(),
-  };
+        'id': id,
+        'name': name,
+        'password': password,
+        'dateOfBirth': dateOfBirth.toIso8601String(),
+        'imagePath': imagePath,
+        'settings': settings.toJson(),
+      };
 
   @override
   String toString() => 'User{id: $id, name: $name}';

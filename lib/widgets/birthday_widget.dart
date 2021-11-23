@@ -1,3 +1,5 @@
+// ignore_for_file: import_of_legacy_library_into_null_safe
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -34,33 +36,32 @@ class _BirthdayWidgetState extends State<BirthdayWidget> {
   }
 
   void setDate() => setState(() {
-    controller.text = widget.birthday == null
-        ? ''
-        : DateFormat.yMd().format(widget.birthday);
-  });
+        controller.text = widget.birthday == null
+            ? ''
+            : DateFormat.yMd().format(widget.birthday);
+      });
 
   @override
   Widget build(BuildContext context) => FocusBuilder(
-    onChangeVisibility: (isVisible) {
-      if (isVisible) {
-        selectDate(context);
-        //
-      } else {
-        FocusScope.of(context).requestFocus(FocusNode());
-      }
-    },
-    focusNode: focusNode,
-    builder: (hasFocus) => TextFormField(
-      controller: controller,
-      validator: (value) => value!.isEmpty ? 'Is Required' : null,
-      decoration: InputDecoration(
-        prefixText: ' ',
-        hintText: 'Your birthday',
-        prefixIcon: Icon(Icons.calendar_today_rounded),
-        border: OutlineInputBorder(),
-      ),
-    ),
-  );
+        onChangeVisibility: (isVisible) {
+          if (isVisible) {
+            selectDate(context);
+          } else {
+            FocusScope.of(context).requestFocus(FocusNode());
+          }
+        },
+        focusNode: focusNode,
+        builder: (hasFocus) => TextFormField(
+          controller: controller,
+          validator: (value) => value!.isEmpty ? 'Is Required' : null,
+          decoration: const InputDecoration(
+            prefixText: ' ',
+            hintText: 'Your birthday',
+            prefixIcon: Icon(Icons.calendar_today_rounded),
+            border: OutlineInputBorder(),
+          ),
+        ),
+      );
 
   Future selectDate(BuildContext context) async {
     final birthday = await showDatePicker(
@@ -85,7 +86,7 @@ class FocusBuilder extends StatefulWidget {
     required this.focusNode,
     required this.builder,
     required this.onChangeVisibility,
-    Key?key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -95,12 +96,12 @@ class FocusBuilder extends StatefulWidget {
 class _FocusBuilderState extends State<FocusBuilder> {
   @override
   Widget build(BuildContext context) => GestureDetector(
-    behavior: HitTestBehavior.opaque,
-    onTap: () => widget.onChangeVisibility(true),
-    child: Focus(
-      focusNode: widget.focusNode,
-      onFocusChange: widget.onChangeVisibility,
-      child: widget.builder(widget.focusNode.hasFocus),
-    ),
-  );
+        behavior: HitTestBehavior.opaque,
+        onTap: () => widget.onChangeVisibility(true),
+        child: Focus(
+          focusNode: widget.focusNode,
+          onFocusChange: widget.onChangeVisibility,
+          child: widget.builder(widget.focusNode.hasFocus),
+        ),
+      );
 }

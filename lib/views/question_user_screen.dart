@@ -1,15 +1,12 @@
+// ignore_for_file: import_of_legacy_library_into_null_safe
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../controllers/quiz_controller.dart';
-import '../controllers/game_controller.dart';
-import './question_screen.dart';
-import '../models/data_layer.dart';
+import '../models/all_models.dart';
+import '../controllers/all_controllers.dart';
 import '../widgets/body_widget.dart';
-import 'package:uuid/uuid.dart';
 
 class QuestionUserScreen extends StatefulWidget {
-  //static const route = '/question_creator_screen';
-
   final String? idGame;
   const QuestionUserScreen({Key? key, this.idGame}) : super(key: key);
 
@@ -26,25 +23,31 @@ class _QuestionUserScreenState extends State<QuestionUserScreen> {
   void initState() {
     super.initState();
     tasks = GameController.getTasks(game.id);
-    
     quizController = Get.put(QuizController());
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.deepPurpleAccent,
-      extendBodyBehindAppBar: true,
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        actions: [FlatButton(onPressed: quizController.nextTask, child: Text("Skip"))],
+    return WillPopScope(
+      onWillPop: () async {
+        Get.delete<QuizController>();
+        return true;
+      },
+      child: Scaffold(
+        backgroundColor: Colors.deepPurpleAccent,
+        extendBodyBehindAppBar: true,
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          actions: [
+            // ignore: deprecated_member_use
+            FlatButton(
+                onPressed: quizController.nextTask, child: const Text("Skip"))
+          ],
+        ),
+        body: BodyWidget(tasks: tasks),
       ),
-      body: BodyWidget(tasks: tasks),
     );
   }
-
 }
-
-

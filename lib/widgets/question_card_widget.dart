@@ -1,3 +1,5 @@
+// ignore_for_file: import_of_legacy_library_into_null_safe
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../controllers/quiz_controller.dart';
@@ -16,8 +18,8 @@ class QuestionCardWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     QuizController _controller = Get.put(QuizController());
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 20),
-      padding: EdgeInsets.all(20),
+      margin: const EdgeInsets.symmetric(horizontal: 20),
+      padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(25),
@@ -31,7 +33,7 @@ class QuestionCardWidget extends StatelessWidget {
                 .headline6!
                 .copyWith(color: Colors.black),
           ),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
           ...List.generate(
             task.answers.length,
             (index) => OptionWidget(

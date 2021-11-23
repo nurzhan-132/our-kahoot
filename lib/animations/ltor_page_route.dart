@@ -6,7 +6,7 @@ class LtorPageRoute extends PageRouteBuilder {
   LtorPageRoute({
     required this.child,
   }) : super(
-    transitionDuration: Duration(milliseconds: 300),
+    transitionDuration: const Duration(milliseconds: 300),
     pageBuilder: (context, animation, secondaryAnimation) => child,
   );
 
@@ -15,7 +15,7 @@ class LtorPageRoute extends PageRouteBuilder {
       Animation<double> secondaryAnimation, Widget child) =>
       SlideTransition(
         position: Tween<Offset>(
-          begin: Offset(-1,0),
+          begin: const Offset(-1,0),
           end: Offset.zero,
         ).animate(animation),
         child: child,

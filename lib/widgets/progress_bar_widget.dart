@@ -1,3 +1,5 @@
+// ignore_for_file: import_of_legacy_library_into_null_safe
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../controllers/quiz_controller.dart';
@@ -13,7 +15,7 @@ class ProgressBarWidget extends StatelessWidget {
       width: double.infinity,
       height: 35,
       decoration: BoxDecoration(
-        border: Border.all(color: Color(0xFF3F4768), width: 3),
+        border: Border.all(color: const Color(0xFF3F4768), width: 3),
         borderRadius: BorderRadius.circular(50),
       ),
       child: GetBuilder<QuizController>(
@@ -40,7 +42,10 @@ class ProgressBarWidget extends StatelessWidget {
                   child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10),
                 child: Row(
-                  children: [Text("${20 - (controller.animation.value * 20).round()} sec")],
+                  children: [
+                    Text(
+                        "${20 - (controller.animation.value * 20).round()} sec")
+                  ],
                 ),
               ))
             ],

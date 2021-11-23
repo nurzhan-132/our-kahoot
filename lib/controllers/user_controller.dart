@@ -1,3 +1,5 @@
+// ignore_for_file: import_of_legacy_library_into_null_safe
+
 import 'dart:convert';
 import '../models/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -38,6 +40,7 @@ class UserController {
   static List<User> getUsers() {
     final idUsers = _preferences.getStringList(_keyUsers);
 
+    // ignore: unnecessary_null_comparison
     if (idUsers == null) {
       return <User>[];
     } else {

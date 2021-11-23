@@ -7,10 +7,10 @@ import 'game_creator_screen.dart';
 import 'game_user_screen.dart';
 import 'home_screen.dart';
 import '../animations/ltor_page_route.dart';
-import '../animations/custom_page_route.dart';
-
 
 class LoginScreen extends StatefulWidget {
+  const LoginScreen({Key? key}) : super(key: key);
+
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
@@ -27,37 +27,37 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-    body: SafeArea(
-      child: Stack(
-        children: [
-          Container(
-            padding: EdgeInsets.symmetric(horizontal: 32, vertical: 96),
-            child: Column(
-              children: <Widget>[
-                TitleWidget(icon: Icons.login, text: 'Login'),
-                const SizedBox(height: 48),
-                Expanded(child: buildUsers()),
-              ],
-            ),
+        body: SafeArea(
+          child: Stack(
+            children: [
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 96),
+                child: Column(
+                  children: <Widget>[
+                    const TitleWidget(icon: Icons.login, text: 'Login'),
+                    const SizedBox(height: 48),
+                    Expanded(child: buildUsers()),
+                  ],
+                ),
+              ),
+              Positioned(
+                left: 16,
+                top: 24,
+                child: IconButton(
+                  icon: const Icon(Icons.arrow_back, size: 32),
+                  onPressed: () => Navigator.of(context).push(LtorPageRoute(
+                    child: const HomeScreen(),
+                  )),
+                ),
+              ),
+            ],
           ),
-          Positioned(
-            left: 16,
-            top: 24,
-            child: IconButton(
-              icon: Icon(Icons.arrow_back, size: 32),
-              onPressed: () => Navigator.of(context).push(LtorPageRoute(
-                child: HomeScreen(),
-              )),
-            ),
-          ),
-        ],
-      ),
-    ),
-  );
+        ),
+      );
 
   Widget buildUsers() {
     if (users.isEmpty) {
-      return Center(
+      return const Center(
         child: Text(
           'There are no users!',
           style: TextStyle(fontSize: 24),
@@ -85,7 +85,7 @@ class _LoginScreenState extends State<LoginScreen> {
       leading: user.imagePath.isEmpty
           ? null
           : CircleAvatar(backgroundImage: FileImage(imageFile)),
-      title: Text(user.name, style: TextStyle(fontSize: 24)),
+      title: Text(user.name, style: const TextStyle(fontSize: 24)),
     );
   }
 
@@ -94,9 +94,8 @@ class _LoginScreenState extends State<LoginScreen> {
       Navigator.of(context).push(MaterialPageRoute(
           builder: (_) => GameCreatorScreen(idUser: user.id)));
     } else {
-      Navigator.of(context).push(MaterialPageRoute(
-          builder: (_) => GameUserScreen(idUser: user.id)));
+      Navigator.of(context).push(
+          MaterialPageRoute(builder: (_) => GameUserScreen(idUser: user.id)));
     }
-    
   }
 }

@@ -1,3 +1,5 @@
+// ignore_for_file: import_of_legacy_library_into_null_safe
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -26,18 +28,17 @@ class _BodyWidgetState extends State<BodyWidget> {
     QuizController _quizController = Get.put(QuizController());
     tasks = widget.tasks;
     _quizController.numOfTasks = tasks.length;
-    //qnNumber = _quizController.taskNumber;
     return Stack(
       children: [
         SafeArea(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20),
                 child: ProgressBarWidget(),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               Padding(
@@ -60,11 +61,11 @@ class _BodyWidgetState extends State<BodyWidget> {
                   ),
                 ),
               ),
-              Divider(thickness: 1.5),
-              SizedBox(height: 20),
+              const Divider(thickness: 1.5),
+              const SizedBox(height: 20),
               Expanded(
                 child: PageView.builder(
-                  physics: NeverScrollableScrollPhysics(),
+                  physics: const NeverScrollableScrollPhysics(),
                   controller: _quizController.pageController,
                   onPageChanged: _quizController.updateTaskNumber,
                   itemCount: tasks.length,

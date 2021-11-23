@@ -7,8 +7,10 @@ class Game {
   List<Task> tasks;
 
   Game(
-      {required this.id, this.name = 'Game',
-      this.description = 'Some description...', this.tasks = const[]});
+      {required this.id,
+      this.name = 'Game',
+      this.description = 'Some description...',
+      this.tasks = const []});
 
   String numberOfTasksMessage() {
     if (tasks.length == 1) {
@@ -16,7 +18,7 @@ class Game {
     }
     return 'There are ${tasks.length} tasks';
   }
-  
+
   Game copy({
     String? id,
     String? name,
@@ -31,21 +33,20 @@ class Game {
       );
 
   static Game fromJson(Map<String, dynamic> json) => Game(
-    id: json['id'],
-    name: json['name'],
-    description: json['description'],
-    tasks: json['tasks']
-                ?.map<Task>((task) => Task.fromJson(task))
-                ?.toList() ??
-            <Task>[],
-  );
+        id: json['id'],
+        name: json['name'],
+        description: json['description'],
+        tasks:
+            json['tasks']?.map<Task>((task) => Task.fromJson(task))?.toList() ??
+                <Task>[],
+      );
 
   Map<String, dynamic> toJson() => {
-    'id': id,
-    'name': name,
-    'description': description,
-    'tasks': tasks.map((task) => task.toJson()).toList(),
-  };
+        'id': id,
+        'name': name,
+        'description': description,
+        'tasks': tasks.map((task) => task.toJson()).toList(),
+      };
 
   @override
   String toString() => 'Game{id: $id, name: $name}';
