@@ -32,6 +32,7 @@ class _GameUserScreenState extends State<GameUserScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.green,
       appBar: AppBar(
         title: const Text('Games'),
         leading: IconButton(

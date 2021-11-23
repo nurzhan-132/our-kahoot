@@ -24,7 +24,6 @@ class _QuestionScreenState extends State<QuestionScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.deepPurpleAccent,
       appBar: AppBar(
         title: const Text(
           'Answers',

@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import '../views/login_screen.dart';
 import '../models/user.dart';
 import '../controllers/user_controller.dart';
 import '../widgets/birthday_widget.dart';
@@ -188,7 +189,7 @@ class _UserScreenState extends State<UserScreen> {
           await UserController.setUser(user);
 
           Navigator.of(context).pushReplacement(MaterialPageRoute(
-            builder: (context) => UserScreen(idUser: user.id),
+            builder: (context) => const LoginScreen(),
           ));
         } else {
           await UserController.setUser(user);

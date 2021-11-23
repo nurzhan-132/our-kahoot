@@ -1,8 +1,10 @@
-CSS 216
+About project:
 
-About project: OUR-KAHOOT is a game-based learning app which can be used as educational technology in schools and other educational institutions. 
-Its learning games, "kahoots", are user-generated multiple-choice quizzes that can be accessed via our app.
-OUR-KAHOOT can be used to review students' knowledge, for formative assessment, or as a break from traditional classroom learning.
+Our-kahoot is a game-based learning platform used to review students' knowledge, for formative assessment or as a break from traditional classroom activities.
+
+Create a fun learning game in minutes. The format and number of questions is up to you. Add videos, images and diagrams to your questions to amplify engagement.
+
+Kahoots are best played in a group setting. Players answer on their own devices, while questions are displayed on a shared screen. 
 
 Members:
 190107035 - Aisultan Abdykerov
@@ -10,5 +12,3 @@ Members:
 190107097 - Nurdaulet Seitkulov
 190107062 - Nurzhan Momynkul
 190103069 - Sergey Grichik
-
-
