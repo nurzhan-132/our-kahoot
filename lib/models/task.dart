@@ -5,9 +5,7 @@ class Task {
   String questionText;
   List<Answer> answers;
 
-  Task({
-    required this.id, this.questionText = '', this.answers = const[]
-  });
+  Task({required this.id, this.questionText = '', this.answers = const []});
 
   String numberOfAnswersMessage() {
     if (answers.length == 1) {
@@ -28,20 +26,19 @@ class Task {
       );
 
   static Task fromJson(Map<String, dynamic> json) => Task(
-    id: json['id'],
-    questionText: json['questionText'],
-    answers:json['answers']
+        id: json['id'],
+        questionText: json['questionText'],
+        answers: json['answers']
                 ?.map<Answer>((answer) => Answer.fromJson(answer))
                 ?.toList() ??
             <Answer>[],
-  );
+      );
 
   Map<String, dynamic> toJson() => {
-    'id': id,
-    'questionText': questionText,
-    'answers': answers.map((answer) => answer.toJson()).toList(),
-  };
-
+        'id': id,
+        'questionText': questionText,
+        'answers': answers.map((answer) => answer.toJson()).toList(),
+      };
 
   @override
   String toString() => 'Task{id: $id, questionText: $questionText}';

@@ -12,14 +12,14 @@ class TitleWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Column(
-    children: [
-      Icon(icon, size: 100),
-      const SizedBox(height: 16),
-      Text(
-        text,
-        style: TextStyle(fontSize: 42, fontWeight: FontWeight.w400),
-        textAlign: TextAlign.center,
-      ),
-    ],
-  );
+        children: [
+          Icon(icon, size: 100),
+          const SizedBox(height: 16),
+          Text(
+            text,
+            style: const TextStyle(fontSize: 42, fontWeight: FontWeight.w400),
+            textAlign: TextAlign.center,
+          ),
+        ],
+      );
 }

@@ -1,15 +1,13 @@
+// ignore_for_file: import_of_legacy_library_into_null_safe
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:our_kahoot/views/login_screen.dart';
-import '../models/game.dart';
-import '../controllers/game_controller.dart';
-import 'package:uuid/uuid.dart';
-import '../models/user.dart';
-import '../controllers/user_controller.dart';
+import 'login_screen.dart';
 import 'question_user_screen.dart';
+import '../models/all_models.dart';
+import '../controllers/all_controllers.dart';
 
 class GameUserScreen extends StatefulWidget {
-  static const route = '/game_creator_screen';
   final String? idUser;
 
   const GameUserScreen({Key? key, this.idUser}) : super(key: key);
@@ -37,11 +35,10 @@ class _GameUserScreenState extends State<GameUserScreen> {
       backgroundColor: Colors.green,
       appBar: AppBar(
         title: const Text('Games'),
-        backgroundColor: Colors.red,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.black),
+          icon: const Icon(Icons.arrow_back),
           onPressed: () => Navigator.of(context).pushReplacement(
-              MaterialPageRoute(builder: (_) => LoginScreen())),
+              MaterialPageRoute(builder: (_) => const LoginScreen())),
         ),
       ),
       body: Column(
@@ -81,8 +78,6 @@ class _GameUserScreenState extends State<GameUserScreen> {
                 Get.to(() => QuestionUserScreen(
                       idGame: game.id,
                     ));
-                // Navigator.of(context).push(MaterialPageRoute(
-                //     builder: (_) => QuestionUserScreen(idGame: game.id,)));
               },
             ));
       },

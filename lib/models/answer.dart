@@ -1,4 +1,3 @@
-
 class Answer {
   final String id;
   String answerText;
@@ -18,14 +17,14 @@ class Answer {
       );
 
   static Answer fromJson(Map<String, dynamic> json) => Answer(
-    id: json['id'],
-    answerText: json['answerText'],
-    correctness: json['correctness'],
-  );
+        id: json['id'],
+        answerText: json['answerText'],
+        correctness: json['correctness'],
+      );
 
   Map<String, dynamic> toJson() => {
-    'id': id,
-    'answerText': answerText,
-    'correctness': correctness,
-  };
+        'id': id,
+        'answerText': answerText,
+        'correctness': correctness,
+      };
 }

@@ -7,10 +7,10 @@ import 'game_creator_screen.dart';
 import 'game_user_screen.dart';
 import 'home_screen.dart';
 import '../animations/ltor_page_route.dart';
-import '../animations/custom_page_route.dart';
-import 'package:form_field_validator/form_field_validator.dart';
 
 class LoginScreen extends StatefulWidget {
+  const LoginScreen({Key? key}) : super(key: key);
+
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
@@ -27,15 +27,14 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-        backgroundColor: Colors.green,
         body: SafeArea(
           child: Stack(
             children: [
               Container(
-                padding: EdgeInsets.symmetric(horizontal: 32, vertical: 96),
+                padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 96),
                 child: Column(
                   children: <Widget>[
-                    TitleWidget(icon: Icons.login, text: 'Login'),
+                    const TitleWidget(icon: Icons.login, text: 'Login'),
                     const SizedBox(height: 48),
                     Expanded(child: buildUsers()),
                   ],
@@ -45,9 +44,9 @@ class _LoginScreenState extends State<LoginScreen> {
                 left: 16,
                 top: 24,
                 child: IconButton(
-                  icon: Icon(Icons.arrow_back, size: 32),
+                  icon: const Icon(Icons.arrow_back, size: 32),
                   onPressed: () => Navigator.of(context).push(LtorPageRoute(
-                    child: HomeScreen(),
+                    child: const HomeScreen(),
                   )),
                 ),
               ),
@@ -58,7 +57,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Widget buildUsers() {
     if (users.isEmpty) {
-      return Center(
+      return const Center(
         child: Text(
           'There are no users!',
           style: TextStyle(fontSize: 24),
@@ -86,7 +85,7 @@ class _LoginScreenState extends State<LoginScreen> {
       leading: user.imagePath.isEmpty
           ? null
           : CircleAvatar(backgroundImage: FileImage(imageFile)),
-      title: Text(user.name, style: TextStyle(fontSize: 24)),
+      title: Text(user.name, style: const TextStyle(fontSize: 24)),
     );
   }
 

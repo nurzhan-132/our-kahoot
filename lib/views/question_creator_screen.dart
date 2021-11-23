@@ -1,12 +1,12 @@
+// ignore_for_file: import_of_legacy_library_into_null_safe
+
 import 'package:flutter/material.dart';
+import '../models/all_models.dart';
 import '../controllers/game_controller.dart';
 import './question_screen.dart';
-import '../models/data_layer.dart';
 import 'package:uuid/uuid.dart';
 
 class QuestionCreatorScreen extends StatefulWidget {
-  //static const route = '/question_creator_screen';
-
   final String? idGame;
   const QuestionCreatorScreen({Key? key, this.idGame}) : super(key: key);
 
@@ -21,6 +21,10 @@ class _QuestionCreatorScreenState extends State<QuestionCreatorScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Questions'),
+      ),
+      backgroundColor: Colors.deepPurpleAccent,
       body: Column(
         children: [_buildListCreator(), Expanded(child: _buildTask())],
       ),
@@ -36,11 +40,13 @@ class _QuestionCreatorScreenState extends State<QuestionCreatorScreen> {
         child: TextField(
           controller: textController,
           decoration: const InputDecoration(
-              prefixIcon : Icon(
+              prefixIcon: Icon(
                 Icons.add_box_rounded,
                 color: Colors.black,
-                size: 30,),
-              labelText: 'Add a task', contentPadding: EdgeInsets.all(20)),
+                size: 30,
+              ),
+              labelText: 'Add a task',
+              contentPadding: EdgeInsets.all(20)),
           onEditingComplete: addTask,
         ),
       ),
@@ -51,9 +57,8 @@ class _QuestionCreatorScreenState extends State<QuestionCreatorScreen> {
     final text = textController.text;
 
     final id = Uuid().v4();
-    Task task = new Task(id: id, questionText: text);
+    Task task = Task(id: id, questionText: text);
     GameController.addTasks(game.id, task);
-
 
     textController.clear();
     FocusScope.of(context).requestFocus(FocusNode());
@@ -91,22 +96,16 @@ class _QuestionCreatorScreenState extends State<QuestionCreatorScreen> {
             direction: DismissDirection.endToStart,
             onDismissed: (_) {
               //game.tasks.remove(task);
-              GameController.deleteTask(game.id, task);
+              GameController.deleteTask(game.id, task.id);
               setState(() {});
             },
             child: ListTile(
               title: Text(task.questionText),
               subtitle: Text(task.numberOfAnswersMessage()),
               onTap: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(builder: (_) => QuestionScreen(idGame: game.id, idTask: task.id)));
-                // Navigator.of(context).push(MaterialPageRoute(
-                //     builder: (_) => TaskProvider(child: MaterialApp(home: QuestionScreen(task: task)))));
-                // Navigator.of(context).push(MaterialPageRoute(
-                //     builder: (_) => TaskProvider(
-                //             child: const MaterialApp(
-                //           home: QuestionScreen(task: task,),
-                //         ))));
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (_) =>
+                        QuestionScreen(idGame: game.id, idTask: task.id)));
               },
             ));
       },

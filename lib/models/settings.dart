@@ -6,18 +6,15 @@ class Settings {
   });
 
   Settings copy({
-   required bool isCreator,
+    required bool isCreator,
   }) =>
-      Settings(
-        isCreator: isCreator
-      );
+      Settings(isCreator: isCreator);
 
   static Settings fromJson(Map<String, dynamic> json) => Settings(
-    isCreator: json['isCreator'],
-  );
+        isCreator: json['isCreator'],
+      );
 
   Map<String, dynamic> toJson() => {
-    'isCreator': isCreator,
-  };
+        'isCreator': isCreator,
+      };
 }
-

@@ -6,6 +6,8 @@ import '../widgets/title_widget.dart';
 import '../animations/custom_page_route.dart';
 
 class HomeScreen extends StatefulWidget {
+  const HomeScreen({Key? key}) : super(key: key);
+
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
@@ -13,14 +15,13 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) => Scaffold(
-        backgroundColor: Colors.green,
         body: SafeArea(
           child: Container(
-            padding: EdgeInsets.symmetric(horizontal: 32, vertical: 96),
+            padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 96),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                TitleWidget(icon: Icons.home, text: 'Our-kahoot'),
+                const TitleWidget(icon: Icons.home, text: 'Signup'),
                 buildButtons(),
               ],
             ),
@@ -32,16 +33,16 @@ class _HomeScreenState extends State<HomeScreen> {
         children: [
           const SizedBox(height: 24),
           ButtonWidget(
-            text: 'Sign in',
+            text: 'Login',
             onClicked: () => Navigator.of(context).push(CustomPageRoute(
-              child: LoginScreen(),
+              child: const LoginScreen(),
             )),
           ),
           const SizedBox(height: 24),
           ButtonWidget(
-            text: 'Sign up',
+            text: 'Register',
             onClicked: () => Navigator.of(context).push(CustomPageRoute(
-              child: UserScreen(),
+              child: const UserScreen(),
             )),
           ),
         ],

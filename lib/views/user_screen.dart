@@ -1,13 +1,14 @@
+// ignore_for_file: import_of_legacy_library_into_null_safe
+
 import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:our_kahoot/views/login_screen.dart';
+import '../views/login_screen.dart';
 import '../models/user.dart';
 import '../controllers/user_controller.dart';
 import '../widgets/birthday_widget.dart';
 import '../widgets/button_widget.dart';
-import '../widgets/pets_button_widget.dart';
 import '../widgets/switch_widget.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:uuid/uuid.dart';
@@ -34,7 +35,6 @@ class _UserScreenState extends State<UserScreen> {
     super.initState();
 
     final id = Uuid().v4();
-    print('Id: $id');
 
     user = widget.idUser == null
         ? User(id: id, dateOfBirth: DateTime.now())
@@ -43,25 +43,39 @@ class _UserScreenState extends State<UserScreen> {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-        backgroundColor: Colors.green,
-        appBar: AppBar(
-          title: const Text(
-            'Registration',
-          ),
-          centerTitle: true,
-          backgroundColor: Colors.redAccent,
-        ),
         body: SafeArea(
           child: Stack(
             children: [
               buildUsers(),
+              if (widget.idUser == null)
+                Positioned(
+                  left: 16,
+                  top: 24,
+                  child: IconButton(
+                    icon: const Icon(Icons.arrow_back, size: 32),
+                    onPressed: () => Navigator.of(context).push(LtorPageRoute(
+                      child: const HomeScreen(),
+                    )),
+                  ),
+                ),
+              if (widget.idUser != null)
+                Positioned(
+                  right: 16,
+                  top: 24,
+                  child: IconButton(
+                    icon: const Icon(Icons.arrow_back, size: 32),
+                    onPressed: () => Navigator.of(context).push(LtorPageRoute(
+                      child: const HomeScreen(),
+                    )),
+                  ),
+                ),
             ],
           ),
         ),
       );
 
   Widget buildUsers() => ListView(
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         children: [
           buildImage(),
           const SizedBox(height: 32),
@@ -83,6 +97,7 @@ class _UserScreenState extends State<UserScreen> {
           final image =
               await ImagePicker().getImage(source: ImageSource.gallery);
 
+          // ignore: unnecessary_null_comparison
           if (image == null) return;
 
           final directory = await getApplicationDocumentsDirectory();
@@ -95,11 +110,12 @@ class _UserScreenState extends State<UserScreen> {
       );
 
   Widget buildAvatar() {
-    final double size = 64;
+    const double size = 64;
 
     if (user.imagePath.isNotEmpty) {
       return CircleAvatar(
         radius: size,
+        // ignore: deprecated_member_use
         backgroundColor: Theme.of(context).accentColor,
         child: ClipOval(
           child: Image.file(
@@ -114,7 +130,7 @@ class _UserScreenState extends State<UserScreen> {
       return CircleAvatar(
         radius: size,
         backgroundColor: Theme.of(context).unselectedWidgetColor,
-        child: Icon(Icons.add, color: Colors.white, size: size),
+        child: const Icon(Icons.add, color: Colors.white, size: size),
       );
     }
   }
@@ -123,7 +139,7 @@ class _UserScreenState extends State<UserScreen> {
         title: 'Name',
         child: TextFormField(
           initialValue: user.name,
-          decoration: InputDecoration(
+          decoration: const InputDecoration(
             border: OutlineInputBorder(),
             hintText: 'Your Name',
           ),
@@ -136,7 +152,7 @@ class _UserScreenState extends State<UserScreen> {
         child: TextFormField(
           initialValue: user.password,
           obscureText: true,
-          decoration: InputDecoration(
+          decoration: const InputDecoration(
             border: OutlineInputBorder(),
             hintText: 'Your Password',
           ),
@@ -173,7 +189,7 @@ class _UserScreenState extends State<UserScreen> {
           await UserController.setUser(user);
 
           Navigator.of(context).pushReplacement(MaterialPageRoute(
-            builder: (context) => LoginScreen(),
+            builder: (context) => const LoginScreen(),
           ));
         } else {
           await UserController.setUser(user);
@@ -189,7 +205,7 @@ class _UserScreenState extends State<UserScreen> {
         children: [
           Text(
             title,
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
           ),
           const SizedBox(height: 8),
           child,

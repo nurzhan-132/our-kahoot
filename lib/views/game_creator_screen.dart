@@ -1,14 +1,13 @@
+// ignore_for_file: import_of_legacy_library_into_null_safe
+
 import 'package:flutter/material.dart';
-import '../models/game.dart';
-import '../controllers/game_controller.dart';
 import './question_creator_screen.dart';
 import 'package:uuid/uuid.dart';
-import '../models/user.dart';
-import '../controllers/user_controller.dart';
+import '../controllers/all_controllers.dart';
+import '../models/all_models.dart';
 import 'login_screen.dart';
 
 class GameCreatorScreen extends StatefulWidget {
-  static const route = '/game_creator_screen';
   final String? idUser;
 
   const GameCreatorScreen({Key? key, this.idUser}) : super(key: key);
@@ -38,9 +37,9 @@ class _GameCreatorScreenState extends State<GameCreatorScreen> {
         title: const Text('Games'),
         backgroundColor: Colors.red,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.black),
+          icon: const Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () => Navigator.of(context).pushReplacement(
-              MaterialPageRoute(builder: (_) => LoginScreen())),
+              MaterialPageRoute(builder: (_) => const LoginScreen())),
         ),
       ),
       body: Column(
@@ -69,7 +68,7 @@ class _GameCreatorScreenState extends State<GameCreatorScreen> {
     final text = textController.text;
 
     final id = Uuid().v4();
-    Game game = new Game(id: id, name: text);
+    Game game = Game(id: id, name: text);
     await GameController.addGames(game);
     games = GameController.getGames();
 
@@ -79,8 +78,7 @@ class _GameCreatorScreenState extends State<GameCreatorScreen> {
   }
 
   Widget _buildGame() {
-    //final games = GameProvider.of(context).games;
-
+    games = GameController.getGames();
     if (games.isEmpty) {
       return Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -114,9 +112,6 @@ class _GameCreatorScreenState extends State<GameCreatorScreen> {
               title: Text(game.name),
               subtitle: Text(game.numberOfTasksMessage()),
               onTap: () {
-                //Navigator.of(context).pushNamed(QuestionCreatorScreen.route, arguments: game);
-                // Navigator.of(context).push(MaterialPageRoute(
-                //     builder: (_) => GameProvider(child: MaterialApp(home: QuestionCreatorScreen(game: game)))));
                 Navigator.of(context).push(MaterialPageRoute(
                     builder: (_) => QuestionCreatorScreen(idGame: game.id)));
               },

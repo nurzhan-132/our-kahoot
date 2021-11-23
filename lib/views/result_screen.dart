@@ -1,9 +1,10 @@
+// ignore_for_file: import_of_legacy_library_into_null_safe
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:our_kahoot/controllers/game_controller.dart';
-import 'package:our_kahoot/controllers/user_controller.dart';
-import 'package:our_kahoot/views/game_user_screen.dart';
-import '../controllers/quiz_controller.dart';
+import '../views/game_user_screen.dart';
+import '../views/question_user_screen.dart';
+import '../controllers/all_controllers.dart';
 
 class ResultScreen extends StatelessWidget {
   const ResultScreen({Key? key}) : super(key: key);
@@ -19,11 +20,17 @@ class ResultScreen extends StatelessWidget {
           children: [
             InkWell(
               onTap: () {
-                Get.to(() => GameUserScreen(idUser: UserController.currentUser,));
+                Get.delete<QuizController>();
+                Get.delete<QuestionUserScreen>();
+                Get.to(() => GameUserScreen(
+                      idUser: UserController.currentUser,
+                    ));
               },
               child: Column(
                 children: [
-                  Spacer(flex: 3,),
+                  const Spacer(
+                    flex: 3,
+                  ),
                   Text(
                     "Score",
                     style: Theme.of(context)
@@ -31,7 +38,7 @@ class ResultScreen extends StatelessWidget {
                         .headline3!
                         .copyWith(color: Colors.yellow),
                   ),
-                  Spacer(),
+                  const Spacer(),
                   Text(
                     "${_quizController.numOfCorrectAns * 10}/${_quizController.numOfTasks * 10}",
                     style: Theme.of(context)
@@ -39,7 +46,9 @@ class ResultScreen extends StatelessWidget {
                         .headline4!
                         .copyWith(color: Colors.yellow),
                   ),
-                  Spacer(flex: 3,),
+                  const Spacer(
+                    flex: 3,
+                  ),
                 ],
               ),
             ),
