@@ -3,9 +3,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'controllers/game_controller.dart';
-import 'views/home_screen.dart';
 import 'controllers/user_controller.dart';
 import 'package:flutter/services.dart';
+import 'views/welcome_screen.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -38,6 +38,6 @@ class MyApp extends StatelessWidget {
           colorScheme: const ColorScheme.dark()
               .copyWith(secondary: Colors.indigoAccent.withOpacity(0.8)),
         ),
-        home: const HomeScreen(),
+        home: const Welcome(),
       );
 }
