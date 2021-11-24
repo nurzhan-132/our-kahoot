@@ -31,7 +31,8 @@ class _LoginScreenState extends State<LoginScreen> {
           child: Stack(
             children: [
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 96),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 32, vertical: 96),
                 child: Column(
                   children: <Widget>[
                     const TitleWidget(icon: Icons.login, text: 'Login'),
@@ -86,6 +87,14 @@ class _LoginScreenState extends State<LoginScreen> {
           ? null
           : CircleAvatar(backgroundImage: FileImage(imageFile)),
       title: Text(user.name, style: const TextStyle(fontSize: 24)),
+      trailing: IconButton(
+        icon: const Icon(Icons.close),
+        onPressed: () {
+          UserController.deleteUser(user.id);
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => LoginScreen()));
+        },
+      ),
     );
   }
 

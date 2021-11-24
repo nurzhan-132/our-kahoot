@@ -47,4 +47,11 @@ class UserController {
       return idUsers.map<User>(getUser).toList();
     }
   }
+
+  static Future deleteUser(String? idUser) async {
+    final idUsers = _preferences.getStringList(_keyUsers) ?? <String>[];
+    final newIdUsers = List.of(idUsers)..remove(idUser);
+
+    await _preferences.setStringList(_keyUsers, newIdUsers);
+  }
 }
