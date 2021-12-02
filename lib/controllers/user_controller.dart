@@ -54,4 +54,21 @@ class UserController {
 
     await _preferences.setStringList(_keyUsers, newIdUsers);
   }
+
+  static User userValidation(User user) {
+    List<User> users = getUsers();
+    if (users != []) {
+      List<String> result = [];
+
+      for (int i = 0; i < users.length; i++) {
+        if (users[i].name == user.name && users[i].password == user.password) {
+          return users[i];
+        } else {
+          return user;
+        }
+      }
+    }
+
+    return user;
+  }
 }
