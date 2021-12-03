@@ -28,6 +28,7 @@ class _GameCreatorScreenState extends State<GameCreatorScreen> {
     games = GameController.getGames();
     user = UserController.getUser(widget.idUser);
   }
+  // hgf?/
 
   @override
   Widget build(BuildContext context) {
