@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+<<<<<<< Updated upstream
+=======
+import 'package:our_kahoot/animations/ltor_page_route.dart';
+import 'package:our_kahoot/views/home_screen.dart';
+>>>>>>> Stashed changes
 import '/views/game_creator_screen.dart';
 import '/views/game_user_screen.dart';
 import '/controllers/user_controller.dart';
@@ -21,11 +26,32 @@ class _LoginBodyWidgetState extends State<LoginBodyWidget> {
   final _passwordController = TextEditingController();
 
   late List<User> users;
+<<<<<<< Updated upstream
+=======
+  late List<User> names;
+>>>>>>> Stashed changes
 
   @override
   void initState() {
     super.initState();
     users = UserController.getUsers();
+<<<<<<< Updated upstream
+=======
+    names = UserController.getUserNames();
+  }
+
+  String name = "";
+  String pass = "";
+
+  void setScreen(User user) {
+    if (user.settings.isCreator == true) {
+      Navigator.of(context).push(MaterialPageRoute(
+          builder: (_) => GameCreatorScreen(idUser: user.id)));
+    } else {
+      Navigator.of(context).push(
+          MaterialPageRoute(builder: (_) => GameUserScreen(idUser: user.id)));
+    }
+>>>>>>> Stashed changes
   }
 
   @override
@@ -37,6 +63,17 @@ class _LoginBodyWidgetState extends State<LoginBodyWidget> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+<<<<<<< Updated upstream
+=======
+            IconButton(
+              onPressed: () {
+                Navigator.of(context)
+                    .pushReplacement(LtorPageRoute(child: HomeScreen()));
+              },
+              icon: Icon(Icons.home),
+              color: Color(0xFF6F35A5),
+            ),
+>>>>>>> Stashed changes
             const Text(
               "LOGIN",
               style:
@@ -59,6 +96,10 @@ class _LoginBodyWidgetState extends State<LoginBodyWidget> {
                   if (value == null || value.isEmpty) {
                     return 'Please enter some text';
                   }
+<<<<<<< Updated upstream
+=======
+                  name = value;
+>>>>>>> Stashed changes
                   return null;
                 },
                 decoration: const InputDecoration(
@@ -85,6 +126,10 @@ class _LoginBodyWidgetState extends State<LoginBodyWidget> {
                   if (value == null || value.isEmpty) {
                     return 'Please enter some text';
                   }
+<<<<<<< Updated upstream
+=======
+                  pass = value;
+>>>>>>> Stashed changes
                   return null;
                 },
                 decoration: const InputDecoration(
@@ -103,7 +148,25 @@ class _LoginBodyWidgetState extends State<LoginBodyWidget> {
             ),
             RoundedButtonWidget(
                 text: "LOGIN",
+<<<<<<< Updated upstream
                 press: () {},
+=======
+                press: () {
+                  name = _nameController.text;
+                  User currUser = UserController.getUserByName(name);
+                  if (currUser.name != "Wrong") {
+                    if (_passwordController.text == currUser.password) {
+                      setScreen(currUser);
+                    } else {
+                      Navigator.of(context).pushReplacement(
+                          CustomPageRoute(child: UserScreen()));
+                    }
+                  } else {
+                    Navigator.of(context)
+                        .pushReplacement(CustomPageRoute(child: HomeScreen()));
+                  }
+                },
+>>>>>>> Stashed changes
                 // press: checkLogin,
                 color: const Color(0xFF6F35A5),
                 textColor: Colors.white),
@@ -123,8 +186,12 @@ class _LoginBodyWidgetState extends State<LoginBodyWidget> {
                   child: const Text(
                     "Sign Up",
                     style: TextStyle(
+<<<<<<< Updated upstream
                         color: Color(0xFF6F35A5),
                         fontWeight: FontWeight.bold),
+=======
+                        color: Color(0xFF6F35A5), fontWeight: FontWeight.bold),
+>>>>>>> Stashed changes
                   ),
                 )
               ],
