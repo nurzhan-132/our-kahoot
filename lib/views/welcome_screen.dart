@@ -17,19 +17,17 @@ class _WelcomeState extends State<Welcome> {
   }
 
   _goHome() async {
-    await Future.delayed(Duration(seconds: 4));
-    Navigator.of(context).pushReplacement(CustomPageRoute(child: HomeScreen()));
+    await Future.delayed(const Duration(seconds: 4));
+    Navigator.of(context).pushReplacement(CustomPageRoute(child: const HomeScreen()));
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
         body: Center(
-      child: Container(
-        child: Text(
-          'OUR-KAHOOT',
-          style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
-        ),
+      child: Text(
+        'OUR-KAHOOT',
+        style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
       ),
     ));
   }
