@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:our_kahoot/animations/ltor_page_route.dart';
-import 'package:our_kahoot/views/home_screen.dart';
 import '/views/game_creator_screen.dart';
 import '/views/game_user_screen.dart';
 import '/controllers/user_controller.dart';
@@ -22,19 +20,6 @@ class _LoginBodyWidgetState extends State<LoginBodyWidget> {
   final _nameController = TextEditingController();
   final _passwordController = TextEditingController();
 
-  late List<User> users;
-  late List<User> names;
-
-  @override
-  void initState() {
-    super.initState();
-    users = UserController.getUsers();
-    names = UserController.getUserNames();
-  }
-
-  String name = "";
-  String pass = "";
-
   void setScreen(User user) {
     if (user.settings.isCreator == true) {
       Navigator.of(context).push(MaterialPageRoute(
@@ -52,21 +37,13 @@ class _LoginBodyWidgetState extends State<LoginBodyWidget> {
       key: _formKey,
       child: LoginBackgroundWidget(
         child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-          IconButton(
-            onPressed: () {
-              Navigator.of(context)
-                  .pushReplacement(LtorPageRoute(child: HomeScreen()));
-            },
-            icon: Icon(Icons.home),
-            color: Color(0xFF6F35A5),
-          ),
           const Text(
             "LOGIN",
             style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
           ),
           Image.asset(
             "lib/assets/images/login_top.png",
-            height: size.height * 0.3,
+            height: size.height * 0.244,
           ),
           Container(
             margin: const EdgeInsets.symmetric(vertical: 10),
@@ -81,7 +58,6 @@ class _LoginBodyWidgetState extends State<LoginBodyWidget> {
                 if (value == null || value.isEmpty) {
                   return 'Please enter some text';
                 }
-                name = value;
                 return null;
               },
               decoration: const InputDecoration(
@@ -108,7 +84,6 @@ class _LoginBodyWidgetState extends State<LoginBodyWidget> {
                 if (value == null || value.isEmpty) {
                   return 'Please enter some text';
                 }
-                pass = value;
                 return null;
               },
               decoration: const InputDecoration(
@@ -127,22 +102,7 @@ class _LoginBodyWidgetState extends State<LoginBodyWidget> {
           ),
           RoundedButtonWidget(
               text: "LOGIN",
-              press: () {
-                name = _nameController.text;
-                User currUser = UserController.getUserByName(name);
-                if (currUser.name != "Wrong") {
-                  if (_passwordController.text == currUser.password) {
-                    setScreen(currUser);
-                  } else {
-                    Navigator.of(context)
-                        .pushReplacement(CustomPageRoute(child: UserScreen()));
-                  }
-                } else {
-                  Navigator.of(context)
-                      .pushReplacement(CustomPageRoute(child: HomeScreen()));
-                }
-              },
-              // press: checkLogin,
+              press: checkLogin,
               color: const Color(0xFF6F35A5),
               textColor: Colors.white),
           Row(
@@ -172,33 +132,33 @@ class _LoginBodyWidgetState extends State<LoginBodyWidget> {
     );
   }
 
-  // void checkLogin() {
-  //   final form = _formKey.currentState;
+  void checkLogin() {
+    final form = _formKey.currentState;
 
-  //   if (!form!.validate()) {
-  //     return;
-  //   }
+    if (!form!.validate()) {
+      return;
+    }
 
-  //   final name = _nameController.text;
-  //   final password = _passwordController.text;
+    final name = _nameController.text;
+    final password = _passwordController.text;
 
-  //   User user =
-  //       User(name: name, password: password, dateOfBirth: DateTime.now());
-  //   User successUser = UserController.userValidation(user);
+    User user =
+        User(name: name, password: password, dateOfBirth: DateTime.now());
+    String userId = UserController.userValidation(user);
 
-  //   if (successUser.id.length > 1) {
-  //     print(successUser.id);
-  //     print("yep");
-  //     if (successUser.settings.isCreator == true) {
-  //       Navigator.of(context).push(MaterialPageRoute(
-  //           builder: (_) => GameCreatorScreen(idUser: successUser.id)));
-  //     } else {
-  //       Navigator.of(context).push(
-  //           MaterialPageRoute(builder: (_) => GameUserScreen(idUser: successUser.id)));
-  //     }
-  //   } else {
-  //     print("nope");
-  //   }
-  // }
+    if (userId.isNotEmpty) {
+      User newUser = UserController.getUser(userId);
 
+      if (newUser.settings.isCreator == true) {
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: (_) => GameCreatorScreen(idUser: newUser.id)));
+      } else {
+        Navigator.of(context).push(
+            MaterialPageRoute(builder: (_) => GameUserScreen(idUser: newUser.id)));
+      }
+
+    } else {
+      print('nope');
+    }
+  }
 }

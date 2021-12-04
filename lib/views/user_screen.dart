@@ -143,6 +143,12 @@ class _UserScreenState extends State<UserScreen> {
             border: OutlineInputBorder(),
             hintText: 'Your Name',
           ),
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return 'Please enter some text';
+            }
+            return null;
+          },
           onChanged: (name) => setState(() => user = user.copy(name: name)),
         ),
       );
@@ -156,6 +162,12 @@ class _UserScreenState extends State<UserScreen> {
             border: OutlineInputBorder(),
             hintText: 'Your Password',
           ),
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return 'Please enter some text';
+            }
+            return null;
+          },
           onChanged: (password) =>
               setState(() => user = user.copy(password: password)),
         ),
