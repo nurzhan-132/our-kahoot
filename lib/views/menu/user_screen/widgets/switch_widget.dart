@@ -13,12 +13,22 @@ class SwitchWidget extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) => ListTile(
+  Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+    return Container(
+      margin: const EdgeInsets.symmetric(vertical: 5),
+      width: size.width * 0.8,
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+      decoration: BoxDecoration(
+          color: const Color.fromRGBO(244, 190, 199, 1),
+          borderRadius: BorderRadius.circular(29)),
+      child: ListTile(
         contentPadding: EdgeInsets.zero,
         onTap: () => onChanged(!value),
         title: Text(
           title,
-          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+          style: const TextStyle(
+              fontWeight: FontWeight.bold, fontSize: 18, color: Colors.black),
         ),
         trailing: Transform.scale(
           scale: 1.3,
@@ -29,5 +39,7 @@ class SwitchWidget extends StatelessWidget {
             onChanged: onChanged,
           ),
         ),
-      );
+      ),
+    );
+  }
 }

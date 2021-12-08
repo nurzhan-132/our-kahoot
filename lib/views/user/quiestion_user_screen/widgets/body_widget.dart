@@ -3,8 +3,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../controllers/quiz_controller.dart';
-import '../models/task.dart';
+import '/controllers/quiz_controller.dart';
+import '/models/task.dart';
 import 'progress_bar_widget.dart';
 import 'question_card_widget.dart';
 

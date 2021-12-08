@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import '/views/game_creator_screen.dart';
-import '/views/game_user_screen.dart';
+import '/views/creator/game_creator_screen.dart';
+import '/views/user/game_user_screen.dart';
 import '/controllers/user_controller.dart';
 import '/animations/custom_page_route.dart';
-import '/views/user_screen.dart';
-import '/widgets/rounded_button_widget.dart';
-import '/widgets/login_background_widget.dart';
-import '../models/user.dart';
+import '../../user_screen/registration_screen.dart';
+import '../../widgets/rounded_button_widget.dart';
+import 'login_background_widget.dart';
+import '/models/user.dart';
 
 class LoginBodyWidget extends StatefulWidget {
   const LoginBodyWidget({Key? key}) : super(key: key);
@@ -19,16 +19,6 @@ class _LoginBodyWidgetState extends State<LoginBodyWidget> {
   final _formKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
   final _passwordController = TextEditingController();
-
-  void setScreen(User user) {
-    if (user.settings.isCreator == true) {
-      Navigator.of(context).push(MaterialPageRoute(
-          builder: (_) => GameCreatorScreen(idUser: user.id)));
-    } else {
-      Navigator.of(context).push(
-          MaterialPageRoute(builder: (_) => GameUserScreen(idUser: user.id)));
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -116,7 +106,7 @@ class _LoginBodyWidgetState extends State<LoginBodyWidget> {
               ),
               GestureDetector(
                   onTap: () => Navigator.of(context).push(CustomPageRoute(
-                        child: const UserScreen(),
+                        child: const RegistrationScreen(),
                       )),
                   child: const Text(
                     "Sign Up",
@@ -153,10 +143,9 @@ class _LoginBodyWidgetState extends State<LoginBodyWidget> {
         Navigator.of(context).push(MaterialPageRoute(
             builder: (_) => GameCreatorScreen(idUser: newUser.id)));
       } else {
-        Navigator.of(context).push(
-            MaterialPageRoute(builder: (_) => GameUserScreen(idUser: newUser.id)));
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: (_) => GameUserScreen(idUser: newUser.id)));
       }
-
     } else {
       print('nope');
     }

@@ -2,9 +2,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../views/game_user_screen.dart';
-import '../views/question_user_screen.dart';
-import '../controllers/all_controllers.dart';
+import '/views/user/game_user_screen.dart';
+import 'quiestion_user_screen/question_user_screen.dart';
+import '/controllers/all_controllers.dart';
 
 class ResultScreen extends StatelessWidget {
   const ResultScreen({Key? key}) : super(key: key);
