@@ -19,6 +19,7 @@ class _LoginBodyWidgetState extends State<LoginBodyWidget> {
   final _formKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
   final _passwordController = TextEditingController();
+  String _error = "";
 
   @override
   Widget build(BuildContext context) {
@@ -27,6 +28,7 @@ class _LoginBodyWidgetState extends State<LoginBodyWidget> {
       key: _formKey,
       child: LoginBackgroundWidget(
         child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+          showAllert(),
           const Text(
             "LOGIN",
             style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
@@ -122,6 +124,32 @@ class _LoginBodyWidgetState extends State<LoginBodyWidget> {
     );
   }
 
+  Widget showAllert() {
+    if (_error != "") {
+      return Container(
+        width: double.infinity,
+        alignment: Alignment.center,
+        padding: EdgeInsets.only(left: 80.0),
+        child: Row(
+          children: const <Widget>[
+            Icon(
+              Icons.error_outline,
+              color: Colors.black,
+            ),
+            Expanded(
+                child: Text(
+              "Incorrect name or password",
+              style: TextStyle(color: Colors.black),
+            )),
+          ],
+        ),
+      );
+    }
+    return const SizedBox(
+      height: 0,
+    );
+  }
+
   void checkLogin() {
     final form = _formKey.currentState;
 
@@ -148,6 +176,9 @@ class _LoginBodyWidgetState extends State<LoginBodyWidget> {
       }
     } else {
       print('nope');
+      setState(() {
+        _error = "Error";
+      });
     }
   }
 }

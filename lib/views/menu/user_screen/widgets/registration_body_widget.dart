@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:our_kahoot/views/creator/game_creator_screen.dart';
+import 'package:our_kahoot/views/user/game_user_screen.dart';
 import '/views/menu/user_screen/widgets/switch_widget.dart';
 import '/animations/custom_page_route.dart';
 import '/views/menu/login_screen/login_screen.dart';
@@ -22,6 +24,7 @@ class _RegistrationBodyWidgetState extends State<RegistrationBodyWidget> {
   final _formKey = GlobalKey<FormState>();
   final _loginController = TextEditingController();
   final _passwordController = TextEditingController();
+  bool creator = false;
 
   late User user;
 
@@ -150,6 +153,8 @@ class _RegistrationBodyWidgetState extends State<RegistrationBodyWidget> {
                   isCreator: isCreator,
                 );
 
+                creator = isCreator;
+
                 setState(() => user = user.copy(settings: settings));
               },
             ),
@@ -196,8 +201,12 @@ class _RegistrationBodyWidgetState extends State<RegistrationBodyWidget> {
     await UserController.addUsers(user);
     await UserController.setUser(user);
 
-    Navigator.of(context).pushReplacement(MaterialPageRoute(
-      builder: (context) => const LoginScreen(),
-    ));
+    if (creator) {
+      Navigator.of(context).push(MaterialPageRoute(
+          builder: (_) => GameCreatorScreen(idUser: user.id)));
+    } else {
+      Navigator.of(context).push(
+          MaterialPageRoute(builder: (_) => GameUserScreen(idUser: user.id)));
+    }
   }
 }
