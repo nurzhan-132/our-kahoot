@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import '/views/user_screen.dart';
+import '/views/menu/login_screen/login_screen.dart';
 import '/animations/custom_page_route.dart';
-import '/views/login_screen.dart';
-import '/widgets/rounded_button_widget.dart';
-import '/widgets/home_background_widget.dart';
+import '../../user_screen/registration_screen.dart';
+import '../../widgets/rounded_button_widget.dart';
+import 'home_background_widget.dart';
 
 class HomeBodyWidget extends StatelessWidget {
   const HomeBodyWidget({Key? key}) : super(key: key);
@@ -34,7 +34,7 @@ class HomeBodyWidget extends StatelessWidget {
           RoundedButtonWidget(
             text: "SIGNUP",
             press: () => Navigator.of(context).push(CustomPageRoute(
-              child: const UserScreen(),
+              child: const RegistrationScreen(),
             )),
             color: const Color.fromRGBO(244, 190, 199, 1),
             textColor: Colors.white,

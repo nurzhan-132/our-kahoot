@@ -3,7 +3,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
-import '../views/result_screen.dart';
+import '/views/user/result_screen.dart';
 import '../models/task.dart';
 
 class QuizController extends GetxController with SingleGetTickerProviderMixin {

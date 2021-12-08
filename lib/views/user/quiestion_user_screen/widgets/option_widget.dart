@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
-import '../controllers/quiz_controller.dart';
+import '/controllers/quiz_controller.dart';
 
 class OptionWidget extends StatelessWidget {
   const OptionWidget({

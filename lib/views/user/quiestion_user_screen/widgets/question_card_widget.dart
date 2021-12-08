@@ -2,8 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../controllers/quiz_controller.dart';
-import '../models/task.dart';
+import '/controllers/quiz_controller.dart';
+import '/models/task.dart';
 import 'option_widget.dart';
 
 class QuestionCardWidget extends StatelessWidget {

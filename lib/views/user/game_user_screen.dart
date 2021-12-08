@@ -2,10 +2,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'login_screen.dart';
-import 'question_user_screen.dart';
-import '../models/all_models.dart';
-import '../controllers/all_controllers.dart';
+import '../menu/login_screen/login_screen.dart';
+import 'quiestion_user_screen/question_user_screen.dart';
+import '/models/all_models.dart';
+import '/controllers/all_controllers.dart';
 
 class GameUserScreen extends StatefulWidget {
   final String? idUser;

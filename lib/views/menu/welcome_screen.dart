@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:our_kahoot/views/home_screen.dart';
-import '../animations/custom_page_route.dart';
+import 'home_screen/home_screen.dart';
+import '/animations/custom_page_route.dart';
 
 class Welcome extends StatefulWidget {
   const Welcome({Key? key}) : super(key: key);

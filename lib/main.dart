@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'controllers/game_controller.dart';
 import 'controllers/user_controller.dart';
 import 'package:flutter/services.dart';
-import 'views/welcome_screen.dart';
+import 'views/menu/welcome_screen.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();

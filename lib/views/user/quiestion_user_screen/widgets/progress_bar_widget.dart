@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../controllers/quiz_controller.dart';
+import '/controllers/quiz_controller.dart';
 
 class ProgressBarWidget extends StatelessWidget {
   const ProgressBarWidget({

@@ -2,9 +2,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../models/all_models.dart';
-import '../controllers/all_controllers.dart';
-import '../widgets/body_widget.dart';
+import '/models/all_models.dart';
+import '/controllers/all_controllers.dart';
+import 'widgets/body_widget.dart';
 
 class QuestionUserScreen extends StatefulWidget {
   final String? idGame;

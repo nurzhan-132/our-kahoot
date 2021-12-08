@@ -58,14 +58,13 @@ class UserController {
 
   static String userValidation(User user) {
     List<User> users = getUsers();
+    print(users);
     if (users != []) {
-
       for (int i = 0; i < users.length; i++) {
         if (users[i].name == user.name && users[i].password == user.password) {
           return users[i].id;
         }
       }
-
     }
 
     return '';
