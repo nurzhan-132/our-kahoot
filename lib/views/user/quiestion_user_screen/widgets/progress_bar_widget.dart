@@ -9,6 +9,8 @@ class ProgressBarWidget extends StatelessWidget {
     Key? key,
   }) : super(key: key);
 
+  final int duration = 20;
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -44,7 +46,7 @@ class ProgressBarWidget extends StatelessWidget {
                 child: Row(
                   children: [
                     Text(
-                        "${20 - (controller.animation.value * 20).round()} sec")
+                        "${duration - (controller.animation.value * duration).round()} sec")
                   ],
                 ),
               ))

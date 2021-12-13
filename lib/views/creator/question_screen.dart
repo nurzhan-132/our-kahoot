@@ -37,8 +37,17 @@ class _QuestionScreenState extends State<QuestionScreen> {
         backgroundColor: CupertinoColors.tertiaryLabel,
       ),
       body: _buildListAnswers(),
-      floatingActionButton: _buildAddAnswerButton(),
+      floatingActionButton:
+          _showAddAnswerButton() ? _buildAddAnswerButton() : null,
     );
+  }
+
+  bool _showAddAnswerButton() {
+    if (task.answers.length == 4) {
+      return false;
+    } else {
+      return true;
+    }
   }
 
   Widget _buildAddAnswerButton() {
@@ -70,10 +79,8 @@ class _QuestionScreenState extends State<QuestionScreen> {
       background: Container(color: Colors.red),
       direction: DismissDirection.endToStart,
       onDismissed: (_) {
-        //task.answers.remove(answer);
-        //GamePreferences.deleteAnswer(game.id, task, answer);
-        //setState(() {});
         GameController.deleteAnswer(game.id, task.id, answer.id);
+        setState(() {});
       },
       child: RadioListTile(
         value: index as int,

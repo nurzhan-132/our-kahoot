@@ -2,15 +2,14 @@
 
 import 'dart:async';
 import 'dart:convert';
-import '../models/game.dart';
-import '../models/task.dart';
-import '../models/answer.dart';
+import '/models/all_models.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class GameController {
   static late SharedPreferences _preferences;
 
   static const _keyGames = 'games';
+  static String currGame = '';
 
   static Future init() async =>
       _preferences = await SharedPreferences.getInstance();
@@ -117,5 +116,24 @@ class GameController {
     } else {
       return idGames.map<Game>(getGame).toList();
     }
+  }
+
+  static String getCurrGameId() {
+    return currGame;
+  }
+
+  static void setCurrGame(String gameId) {
+    currGame = gameId;
+  }
+
+  static int getCurrGameIndex(User user) {
+    print('why?');
+    for (var i = 0; i < user.games.length; i++) {
+      print(currGame + ' ' + user.games[i].id);
+      if (currGame == user.games[i].id) {
+        return i;
+      }
+    }
+    return -1;
   }
 }

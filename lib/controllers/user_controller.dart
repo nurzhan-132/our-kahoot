@@ -27,7 +27,7 @@ class UserController {
     return User.fromJson(jsonDecode(json));
   }
 
-  String? getCurrentUser() {
+  static String? getCurrentUser() {
     return currentUser;
   }
 
@@ -68,5 +68,17 @@ class UserController {
     }
 
     return '';
+  }
+
+  static void setResultToUser(String gameId, int result) async {
+    User user = getUser(currentUser);
+
+    for (var i = 0; i < user.games.length; i++) {
+      if (user.games[i].id == gameId) {
+        user.games[i].result = result;
+      }
+    }
+
+    await UserController.setUser(user);
   }
 }
