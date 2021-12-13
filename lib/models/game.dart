@@ -5,12 +5,14 @@ class Game {
   String name;
   String description;
   List<Task> tasks;
+  int result;
 
   Game(
       {required this.id,
       this.name = 'Game',
       this.description = 'Some description...',
-      this.tasks = const []});
+      this.tasks = const [],
+      this.result = 0});
 
   String numberOfTasksMessage() {
     if (tasks.length == 1) {
@@ -24,12 +26,14 @@ class Game {
     String? name,
     String? description,
     List<Task>? tasks,
+    int? result,
   }) =>
       Game(
         id: id ?? this.id,
         name: name ?? this.name,
         description: description ?? this.description,
         tasks: tasks ?? this.tasks,
+        result: result ?? this.result,
       );
 
   static Game fromJson(Map<String, dynamic> json) => Game(
@@ -39,6 +43,7 @@ class Game {
         tasks:
             json['tasks']?.map<Task>((task) => Task.fromJson(task))?.toList() ??
                 <Task>[],
+        result: json['result'],
       );
 
   Map<String, dynamic> toJson() => {
@@ -46,6 +51,7 @@ class Game {
         'name': name,
         'description': description,
         'tasks': tasks.map((task) => task.toJson()).toList(),
+        'result': result,
       };
 
   @override

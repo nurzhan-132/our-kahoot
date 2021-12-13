@@ -29,12 +29,13 @@ class QuizController extends GetxController with SingleGetTickerProviderMixin {
   late int _taskNumber = 0;
   int get taskNumber => _taskNumber;
 
-  late int numOfTasks;
+  late int numOfTasks = 0;
+  final int duration = 20;
 
   @override
   void onInit() {
     _animationController =
-        AnimationController(duration: const Duration(seconds: 20), vsync: this);
+        AnimationController(duration: Duration(seconds: duration), vsync: this);
     _animation = Tween(begin: 0.0, end: 1.0).animate(_animationController)
       ..addListener(() {
         update();
@@ -57,7 +58,7 @@ class QuizController extends GetxController with SingleGetTickerProviderMixin {
     }
 
     if (task.answers[_selectedAns].correctness == true) {
-      _numOfCorrectAns++;
+      _numOfCorrectAns += (1000 - 1000 * _animationController.value).round();
     }
     _animationController.stop();
     update();

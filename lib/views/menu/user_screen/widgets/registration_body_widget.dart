@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:our_kahoot/views/creator/game_creator_screen.dart';
-import 'package:our_kahoot/views/user/game_user_screen.dart';
+import 'package:our_kahoot/controllers/all_controllers.dart';
 import '/views/menu/user_screen/widgets/switch_widget.dart';
 import '/animations/custom_page_route.dart';
 import '/views/menu/login_screen/login_screen.dart';
@@ -24,7 +23,6 @@ class _RegistrationBodyWidgetState extends State<RegistrationBodyWidget> {
   final _formKey = GlobalKey<FormState>();
   final _loginController = TextEditingController();
   final _passwordController = TextEditingController();
-  bool creator = false;
 
   late User user;
 
@@ -33,7 +31,7 @@ class _RegistrationBodyWidgetState extends State<RegistrationBodyWidget> {
     super.initState();
 
     final id = Uuid().v4();
-    user = User(id: id, dateOfBirth: DateTime.now());
+    user = User(id: id);
   }
 
   @override
@@ -140,11 +138,6 @@ class _RegistrationBodyWidgetState extends State<RegistrationBodyWidget> {
                 ),
               ),
             ),
-            // BirthdayWidget(
-            //   birthday: user.dateOfBirth,
-            //   onChangedBirthday: (dateOfBirth) =>
-            //       setState(() => user = user.copy(dateOfBirth: dateOfBirth)),
-            // ),
             SwitchWidget(
               title: 'Are you creator?',
               value: user.settings.isCreator,
@@ -152,8 +145,6 @@ class _RegistrationBodyWidgetState extends State<RegistrationBodyWidget> {
                 final settings = user.settings.copy(
                   isCreator: isCreator,
                 );
-
-                creator = isCreator;
 
                 setState(() => user = user.copy(settings: settings));
               },
@@ -201,12 +192,8 @@ class _RegistrationBodyWidgetState extends State<RegistrationBodyWidget> {
     await UserController.addUsers(user);
     await UserController.setUser(user);
 
-    if (creator) {
-      Navigator.of(context).push(MaterialPageRoute(
-          builder: (_) => GameCreatorScreen(idUser: user.id)));
-    } else {
-      Navigator.of(context).push(
-          MaterialPageRoute(builder: (_) => GameUserScreen(idUser: user.id)));
-    }
+    Navigator.of(context).pushReplacement(MaterialPageRoute(
+      builder: (context) => const LoginScreen(),
+    ));
   }
 }

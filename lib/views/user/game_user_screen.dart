@@ -27,6 +27,9 @@ class _GameUserScreenState extends State<GameUserScreen> {
 
     games = GameController.getGames();
     user = UserController.getUser(widget.idUser);
+    user = user.copy(games: games);
+    UserController.setUser(user);
+    print(UserController.getUser(UserController.getCurrentUser()).games);
   }
 
   @override
@@ -78,6 +81,8 @@ class _GameUserScreenState extends State<GameUserScreen> {
                 Get.to(() => QuestionUserScreen(
                       idGame: game.id,
                     ));
+                GameController.setCurrGame(game.id);
+                print(GameController.currGame);
               },
             ));
       },
