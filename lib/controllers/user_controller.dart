@@ -22,9 +22,9 @@ class UserController {
   }
 
   static User getUser(String? idUser) {
-    final json = _preferences.getString(idUser);
+    final json = _preferences.getString(idUser!);
     currentUser = idUser;
-    return User.fromJson(jsonDecode(json));
+    return User.fromJson(jsonDecode(json!));
   }
 
   static String? getCurrentUser() {

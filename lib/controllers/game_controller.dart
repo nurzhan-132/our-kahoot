@@ -42,21 +42,22 @@ class GameController {
   }
 
   static Game getGame(String? idGame) {
-    final json = _preferences.getString(idGame);
+    final json = _preferences.getString(idGame!);
 
-    return Game.fromJson(jsonDecode(json));
+
+    return Game.fromJson(jsonDecode(json!));
   }
 
   static Task getTask(String? idGame, String? idTask) {
-    final json = _preferences.getString(idGame);
-    Game game = Game.fromJson(jsonDecode(json));
+    final json = _preferences.getString(idGame!);
+    Game game = Game.fromJson(jsonDecode(json!));
     Task task = game.tasks.firstWhere((element) => element.id == idTask);
     return task;
   }
 
   static List<Task> getTasks(String? idGame) {
-    final json = _preferences.getString(idGame);
-    Game game = Game.fromJson(jsonDecode(json));
+    final json = _preferences.getString(idGame!);
+    Game game = Game.fromJson(jsonDecode(json!));
     return game.tasks;
   }
 
@@ -68,16 +69,16 @@ class GameController {
   }
 
   static void deleteTask(String? idGame, String taskId) {
-    final json = _preferences.getString(idGame);
-    Game game = Game.fromJson(jsonDecode(json));
+    final json = _preferences.getString(idGame!);
+    Game game = Game.fromJson(jsonDecode(json!));
     Task ntask = game.tasks.where((ctask) => ctask.id == taskId).single;
     game.tasks.remove(ntask);
     setGame(game);
   }
 
   static void deleteAnswer(String? idGame, String taskId, String answerId) {
-    final json = _preferences.getString(idGame);
-    Game game = Game.fromJson(jsonDecode(json));
+    final json = _preferences.getString(idGame!);
+    Game game = Game.fromJson(jsonDecode(json!));
 
     Task ntask = game.tasks.where((ctask) => ctask.id == taskId).single;
     Answer nanswer =
