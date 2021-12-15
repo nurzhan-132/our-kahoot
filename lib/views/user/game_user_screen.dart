@@ -8,9 +8,7 @@ import '/models/all_models.dart';
 import '/controllers/all_controllers.dart';
 
 class GameUserScreen extends StatefulWidget {
-  final String? idUser;
-
-  const GameUserScreen({Key? key, this.idUser}) : super(key: key);
+  const GameUserScreen({Key? key}) : super(key: key);
 
   @override
   _GameUserScreenState createState() => _GameUserScreenState();
@@ -19,17 +17,11 @@ class GameUserScreen extends StatefulWidget {
 class _GameUserScreenState extends State<GameUserScreen> {
   final textController = TextEditingController();
   late List<Game> games;
-  late User user;
 
   @override
   void initState() {
     super.initState();
-
-    games = GameController.getGames();
-    user = UserController.getUser(widget.idUser);
-    user = user.copy(games: games);
-    UserController.setUser(user);
-    print(UserController.getUser(UserController.getCurrentUser()).games);
+    games = GameController.getAllUsersGames();
   }
 
   @override
@@ -78,11 +70,8 @@ class _GameUserScreenState extends State<GameUserScreen> {
               title: Text(game.name),
               subtitle: Text(game.numberOfTasksMessage()),
               onTap: () {
-                Get.to(() => QuestionUserScreen(
-                      idGame: game.id,
-                    ));
                 GameController.setCurrGame(game.id);
-                print(GameController.currGame);
+                Get.to(() => const QuestionUserScreen());
               },
             ));
       },

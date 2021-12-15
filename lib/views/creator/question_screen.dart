@@ -1,30 +1,32 @@
 // ignore_for_file: import_of_legacy_library_into_null_safe
 
 import 'package:flutter/material.dart';
+import '/views/creator/question_creator_screen.dart';
 import '/models/all_models.dart';
 import '/controllers/game_controller.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:uuid/uuid.dart';
 
 class QuestionScreen extends StatefulWidget {
-  final String? idGame;
-  final String? idTask;
-
-  const QuestionScreen({Key? key, this.idGame, this.idTask}) : super(key: key);
+  const QuestionScreen({Key? key}) : super(key: key);
 
   @override
   _QuestionScreenState createState() => _QuestionScreenState();
 }
 
 class _QuestionScreenState extends State<QuestionScreen> {
-  Game get game => GameController.getGame(widget.idGame);
-  Task get task => GameController.getTask(widget.idGame, widget.idTask);
+  Task get task => GameController.getTask(GameController.getCurrTask());
   int selectedValue = -1;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: Colors.white),
+          onPressed: () => Navigator.of(context).push(
+              MaterialPageRoute(builder: (_) => const QuestionCreatorScreen())),
+        ),
         title: const Text(
           'Answers',
           textAlign: TextAlign.center,
@@ -43,7 +45,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
   }
 
   bool _showAddAnswerButton() {
-    if (task.answers.length == 4) {
+    if (task.answers.length >= 4) {
       return false;
     } else {
       return true;
@@ -56,7 +58,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
       onPressed: () async {
         final id = Uuid().v4();
         Answer answer = Answer(id: id);
-        await GameController.addAnswer(game.id, task.id, answer);
+        GameController.addAnswer(answer);
         setState(() {});
       },
     );
@@ -79,7 +81,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
       background: Container(color: Colors.red),
       direction: DismissDirection.endToStart,
       onDismissed: (_) {
-        GameController.deleteAnswer(game.id, task.id, answer.id);
+        GameController.deleteAnswer(answer.id);
         setState(() {});
       },
       child: RadioListTile(
@@ -88,11 +90,10 @@ class _QuestionScreenState extends State<QuestionScreen> {
         onChanged: (value) => setState(() {
           selectedValue = value as int;
           for (var i = 0; i < task.answers.length; i++) {
-            GameController.setAnswerCorrectness(
-                game.id, task.id, task.answers[i].id, false);
+            GameController.setAnswerCorrectness(task.answers[i].id, false);
           }
           GameController.setAnswerCorrectness(
-              game.id, task.id, task.answers[selectedValue].id, true);
+              task.answers[selectedValue].id, true);
         }),
         title: TextFormField(
           decoration: InputDecoration(
@@ -101,7 +102,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
           ),
           initialValue: answer.answerText,
           onFieldSubmitted: (text) {
-            GameController.setAnswerText(game.id, task.id, answer.id, text);
+            GameController.setAnswerText(answer.id, text);
           },
         ),
       ),

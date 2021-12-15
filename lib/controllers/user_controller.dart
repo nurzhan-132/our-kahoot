@@ -1,6 +1,8 @@
 // ignore_for_file: import_of_legacy_library_into_null_safe
 
 import 'dart:convert';
+import '/models/all_models.dart';
+import '/controllers/all_controllers.dart';
 import '../models/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -8,7 +10,7 @@ class UserController {
   static late SharedPreferences _preferences;
 
   static const _keyUsers = 'users';
-  static String? currentUser;
+  static late String currentUser;
 
   static Future init() async {
     _preferences = await SharedPreferences.getInstance();
@@ -23,12 +25,15 @@ class UserController {
 
   static User getUser(String? idUser) {
     final json = _preferences.getString(idUser!);
-    currentUser = idUser;
     return User.fromJson(jsonDecode(json!));
   }
 
-  static String? getCurrentUser() {
+  static String getCurrentUser() {
     return currentUser;
+  }
+
+  static void setCurrUser(String userId) {
+    currentUser = userId;
   }
 
   static Future addUsers(User user) async {
@@ -72,13 +77,38 @@ class UserController {
 
   static void setResultToUser(String gameId, int result) async {
     User user = getUser(currentUser);
-
-    for (var i = 0; i < user.games.length; i++) {
-      if (user.games[i].id == gameId) {
-        user.games[i].result = result;
+    if (user.games.isEmpty) {
+      Game game = Game(id: gameId, result: result);
+      user.games.add(game);
+    } else {
+      for (var i = 0; i < user.games.length; i++) {
+        if (user.games[i].id == gameId) {
+          if (result > user.games[i].result) user.games[i].result = result;
+          break;
+        } else if (user.games[i].id != gameId && i == user.games.length - 1) {
+          Game game = Game(id: gameId, result: result);
+          user.games.add(game);
+        }
       }
     }
 
     await UserController.setUser(user);
+  }
+
+  static Map<String, int> getAllGameResults() {
+    List<User> users = getUsers();
+    Map<String, int> results = {};
+
+    for (var i = 0; i < users.length; i++) {
+      if (!users[i].settings.isCreator && users[i].games.isNotEmpty) {
+        for (var j = 0; j < users[i].games.length; j++) {
+          if (users[i].games[j].id == GameController.getCurrGame()) {
+            results.addAll({users[i].name: users[i].games[j].result});
+          }
+        }
+      }
+    }
+
+    return results;
   }
 }

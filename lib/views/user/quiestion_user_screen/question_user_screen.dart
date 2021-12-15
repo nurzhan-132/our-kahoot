@@ -7,22 +7,22 @@ import '/controllers/all_controllers.dart';
 import 'widgets/body_widget.dart';
 
 class QuestionUserScreen extends StatefulWidget {
-  final String? idGame;
-  const QuestionUserScreen({Key? key, this.idGame}) : super(key: key);
+  const QuestionUserScreen({Key? key}) : super(key: key);
 
   @override
   _QuestionUserScreenState createState() => _QuestionUserScreenState();
 }
 
 class _QuestionUserScreenState extends State<QuestionUserScreen> {
-  Game get game => GameController.getGame(widget.idGame);
+  Game get game => GameController.getGameByUser(GameController.getCurrGame());
   late List<Task> tasks;
   late QuizController quizController;
 
   @override
   void initState() {
     super.initState();
-    tasks = GameController.getTasks(game.id);
+    // tasks = GameController.getTasks(game.id);
+    tasks = game.tasks;
     quizController = Get.put(QuizController());
   }
 
