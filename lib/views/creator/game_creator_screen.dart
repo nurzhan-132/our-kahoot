@@ -8,9 +8,7 @@ import '/models/all_models.dart';
 import '../menu/login_screen/login_screen.dart';
 
 class GameCreatorScreen extends StatefulWidget {
-  final String? idUser;
-
-  const GameCreatorScreen({Key? key, this.idUser}) : super(key: key);
+  const GameCreatorScreen({Key? key}) : super(key: key);
 
   @override
   _GameCreatorScreenState createState() => _GameCreatorScreenState();
@@ -25,10 +23,9 @@ class _GameCreatorScreenState extends State<GameCreatorScreen> {
   void initState() {
     super.initState();
 
-    games = GameController.getGames();
-    user = UserController.getUser(widget.idUser);
+    user = UserController.getUser(UserController.getCurrentUser());
+    games = GameController.getUserGames(user);
   }
-  // hgf?/
 
   @override
   Widget build(BuildContext context) {
@@ -70,8 +67,7 @@ class _GameCreatorScreenState extends State<GameCreatorScreen> {
 
     final id = Uuid().v4();
     Game game = Game(id: id, name: text);
-    await GameController.addGames(game);
-    games = GameController.getGames();
+    GameController.addGame(game);
 
     textController.clear();
     FocusScope.of(context).requestFocus(FocusNode());
@@ -79,7 +75,7 @@ class _GameCreatorScreenState extends State<GameCreatorScreen> {
   }
 
   Widget _buildGame() {
-    games = GameController.getGames();
+    games = GameController.getUserGames(user);
     if (games.isEmpty) {
       return Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -113,8 +109,9 @@ class _GameCreatorScreenState extends State<GameCreatorScreen> {
               title: Text(game.name),
               subtitle: Text(game.numberOfTasksMessage()),
               onTap: () {
+                GameController.setCurrGame(game.id);
                 Navigator.of(context).push(MaterialPageRoute(
-                    builder: (_) => QuestionCreatorScreen(idGame: game.id)));
+                    builder: (_) => const QuestionCreatorScreen()));
               },
             ));
       },

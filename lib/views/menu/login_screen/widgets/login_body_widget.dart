@@ -132,19 +132,19 @@ class _LoginBodyWidgetState extends State<LoginBodyWidget> {
     final name = _nameController.text;
     final password = _passwordController.text;
 
-    User user =
-        User(name: name, password: password);
+    User user = User(name: name, password: password);
     String userId = UserController.userValidation(user);
 
     if (userId.isNotEmpty) {
       User newUser = UserController.getUser(userId);
+      UserController.setCurrUser(newUser.id);
 
       if (newUser.settings.isCreator == true) {
-        Navigator.of(context).push(MaterialPageRoute(
-            builder: (_) => GameCreatorScreen(idUser: newUser.id)));
+        Navigator.of(context)
+            .push(MaterialPageRoute(builder: (_) => const GameCreatorScreen()));
       } else {
-        Navigator.of(context).push(MaterialPageRoute(
-            builder: (_) => GameUserScreen(idUser: newUser.id)));
+        Navigator.of(context)
+            .push(MaterialPageRoute(builder: (_) => const GameUserScreen()));
       }
     } else {
       print('nope');

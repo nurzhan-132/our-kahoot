@@ -2,7 +2,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '/models/user.dart';
 import '/views/user/game_user_screen.dart';
 import 'quiestion_user_screen/question_user_screen.dart';
 import '/controllers/all_controllers.dart';
@@ -14,15 +13,13 @@ class ResultScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     QuizController _quizController = Get.put(QuizController());
     UserController.setResultToUser(
-        GameController.getCurrGameId(), _quizController.numOfCorrectAns);
+        GameController.getCurrGame(), _quizController.numOfCorrectAns);
     return Scaffold(
       body: WillPopScope(
         onWillPop: () async {
           Get.delete<QuizController>();
           Get.delete<QuestionUserScreen>();
-          Get.to(() => GameUserScreen(
-                idUser: UserController.currentUser,
-              ));
+          Get.to(() => const GameUserScreen());
           return false;
         },
         child: Column(
@@ -33,27 +30,19 @@ class ResultScreen extends StatelessWidget {
   }
 
   Widget _buildListPlayers() {
-    List<User> users = UserController.getUsers();
+    Map<String, int> results = UserController.getAllGameResults();
     return ListView.builder(
-      itemCount: users.length,
+      itemCount: results.length,
       itemBuilder: (context, index) {
-        final user = users[index];
-        final indexCurrGame = GameController.getCurrGameIndex(user);
-
-        if (indexCurrGame != -1) {
-          return ListTile(
-            title: Text('${user.name} - ${user.games[indexCurrGame].result}'),
-            onTap: () {
-              Get.delete<QuizController>();
-              Get.delete<QuestionUserScreen>();
-              Get.to(() => GameUserScreen(
-                    idUser: UserController.currentUser,
-                  ));
-            },
-          );
-        } else {
-          return Container();
-        }
+        String resKey = results.keys.elementAt(index);
+        return ListTile(
+          title: Text('$resKey - ${results[resKey]}'),
+          onTap: () {
+            Get.delete<QuizController>();
+            Get.delete<QuestionUserScreen>();
+            Get.to(() => const GameUserScreen());
+          },
+        );
       },
     );
   }
