@@ -18,17 +18,28 @@ class _WelcomeState extends State<Welcome> {
 
   _goHome() async {
     await Future.delayed(const Duration(seconds: 4));
-    Navigator.of(context).pushReplacement(CustomPageRoute(child: const HomeScreen()));
+    Navigator.of(context)
+        .pushReplacement(CustomPageRoute(child: const HomeScreen()));
   }
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-        body: Center(
-      child: Text(
-        'OUR-KAHOOT',
-        style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
+    Size size = MediaQuery.of(context).size;
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: SizedBox(
+        width: double.infinity,
+        height: size.height,
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            Positioned(
+              child: Image.asset("lib/assets/images/Logo.gif"),
+              width: size.width ,
+            ),
+          ],
+        ),
       ),
-    ));
+    );
   }
 }
