@@ -1,14 +1,42 @@
-About project:
+# OUR-KAHOOT 
 
-Our-kahoot is a game-based learning platform used to review students' knowledge, for formative assessment or as a break from traditional classroom activities.
+Mobile application written on Flutter	
 
-Create a fun learning game in minutes. The format and number of questions is up to you. Add videos, images and diagrams to your questions to amplify engagement.
+**Goals**
+----------
 
-Kahoots are best played in a group setting. Players answer on their own devices, while questions are displayed on a shared screen. 
+The goal of Our-Kahoot is to increase engagement, motivation, enjoyment, and concentration to improve learning performance and classroom dynamics.
 
-Members:
-190107035 - Aisultan Abdykerov
-190117006 - Abdulla Atentayev
-190107097 - Nurdaulet Seitkulov
-190107062 - Nurzhan Momynkul
-190103069 - Sergey Grichik
+**Team Members**
+----------
+
+-	Abdulla Atentayev 190117006@stu.sdu.edu.kz
+-	Aisultan Abdykerov 190107035@stu.sdu.edu.kz
+-	Nurdaulet Seitkulov 190107097@stu.sdu.edu.kz 
+-	Nurzhan Momynkul  190107062@stu.sdu.edu.kz
+-	Sergey Grichik 190103069@stu.sdu.edu.kz
+**Scope and Features**  
+----------
+
+•	Simple Grading system
+•	User-friendly interface
+
+**Solution concept**
+----------
+
+-	Installing AndroidStudio client and SDK's on our locally for familiarization
+-	Developing and testing on Flutter
+-	Testing the current widgets on Flutter
+-	Building a simple on Flutter apps
+-	Using navigations and interactivities
+-	Automating the tuning of our model
+-	Learing an objects which representing a delayed computation.
+
+ ![image](https://user-images.githubusercontent.com/64443640/146908804-0dc96eab-218f-46ef-9fbb-fbc85f56d60e.png)
+
+
+**Acceptance Criteria**
+----------
+Developing application on Dart flutter Every week we trying to modify and upgrade our project according to CSS 223 Flutter course and our instructor Bissenbay Dauletbayev presintation.
+
+ 
