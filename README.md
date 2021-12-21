@@ -15,6 +15,7 @@ The goal of Our-Kahoot is to increase engagement, motivation, enjoyment, and con
 -	Nurdaulet Seitkulov 190107097@stu.sdu.edu.kz 
 -	Nurzhan Momynkul  190107062@stu.sdu.edu.kz
 -	Sergey Grichik 190103069@stu.sdu.edu.kz
+
 **Scope and Features**  
 ----------
 
