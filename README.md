@@ -38,6 +38,6 @@ The goal of Our-Kahoot is to increase engagement, motivation, enjoyment, and con
 
 **Acceptance Criteria**
 ----------
-Developing application on Dart flutter Every week we trying to modify and upgrade our project according to CSS 223 Flutter course and our instructor Bissenbay Dauletbayev presintation.
+Developing application on Dart flutter Every week we trying to modify and upgrade our project according to CSS 216 Flutter course and our instructor Bissenbay Dauletbayev presintation.
 
  
